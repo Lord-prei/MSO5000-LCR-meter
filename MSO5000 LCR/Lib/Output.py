@@ -1,4 +1,4 @@
-# Lib for all the Output stuff
+﻿# Lib for all the Output stuff
 
 import  sys
 import  os
@@ -94,6 +94,8 @@ if(True):
                         "1 : Decimal places for rounding (Current: " + str(P.Rounded) + ")\n"
                         "2 : Time Delay when going back (Current: " + str(P.Time_Delay) + "s)\n"
                         "3 : Debug Messages (Current: " + str(P.Debug) + ")\n"
+                        "4 : Debug Messages for Calculations (Current: " + str(P.Debug_Calc) + ")\n"
+                        "5 : Number Format for Display (Current: " + str(P.Number_Display) + ")\n"
                         "99: Go back\n\n")
 
 # -------------------------------------------------- Layer 2
@@ -110,7 +112,7 @@ if(True):
 # if(True): 
 #     print(1)
 
-# --------------------------------------------------------------------------- End
+# --------------------------------------------------------------------------- End Formating
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- Debug
 # Here Come all of the Functions
@@ -134,30 +136,43 @@ if(True):
             waitForKeypress()
 
     # 20260222, MODIFICATION, V0.0.2, LZerres: Debug messages for Calculations
-    # def dprintCalc(
-    #                 X, Y,
-    #                 Rounded_Voltage_Ue,
-    #                 Rounded_Voltage_Ua,
-    #                 Rounded_Current,
-    #                 Rounded_Frequeny,
-    #                 Rounded_PhaseOffset,
-    #                 Rounded_Impedance_abs,
-    #                 Rounded_Resistance,
-    #                 Rounded_Blind,
-    #                 Rounded_Impedance,
-    #                 Rounded_H,
-    #                 Rounded_H_db,
-    #                 dfCal
-    #                 ): 
-    #     if(P.Debug == "yes"):
-    #         print(dfCal[Y]
+    def dprintCalc(
+                    X, Y,
+                    Rounded_Voltage_Ue,
+                    Rounded_Voltage_Ua,
+                    Rounded_Current,
+                    Rounded_Frequeny,
+                    Rounded_PhaseOffset,
+                    Rounded_Impedance_abs,
+                    Rounded_Resistance,
+                    Rounded_Blind,
+                    Rounded_Impedance,
+                    Rounded_H,
+                    Rounded_H_db,
+                    ): 
+        if(P.Debug == "yes"):
+            print(
+                f"row:\t{Y:06d}\t| "
+                f"col:\t{X:06d}\t| "
+                f"Ue:\t{P.select_number_format(Rounded_Voltage_Ue)}V\t| "
+                f"Ua:\t{P.select_number_format(Rounded_Voltage_Ua)}V\t| "
+                f"I:\t{P.select_number_format(Rounded_Current)}A\t| "
+                f"f:\t{P.select_number_format(Rounded_Frequeny)}Hz\t| "
+                f"φ:\t{P.select_number_format(Rounded_PhaseOffset)}°\t| "
+                f"|Z|:\t{P.select_number_format(Rounded_Impedance_abs)}Ω\t| "
+                f"R:\t{P.select_number_format(Rounded_Resistance)}Ω\t| "
+                f"X:\t{P.select_number_format(Rounded_Blind)}Ω\t| "
+                f"Z:\t{P.select_number_format(Rounded_Impedance)}Ω\t| "
+                f"H:\t{P.select_number_format(Rounded_H)}\t| "
+                f"H(dB):\t{P.select_number_format(Rounded_H_db)}dB"
+                )
 
 
 # -------------------------------------------------- Layer 2
 
 # Functions Layer 2
 
-# if(True): 
+# if(True):
 #     print(1)
 
 # -------------------------------------------------- Layer 3
@@ -167,7 +182,7 @@ if(True):
 # if(True): 
 #     print(1)
 
-# --------------------------------------------------------------------------- End
+# --------------------------------------------------------------------------- End Debug
 # ----------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 # Here Come all of the Functions

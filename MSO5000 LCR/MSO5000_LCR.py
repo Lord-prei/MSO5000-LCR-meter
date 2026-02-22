@@ -23,14 +23,15 @@
 #           Added settings
 #           Made some Libs: Input, Process, Output and added structure in them
 #
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- V0.0.2
 #
 #       VERSIONNAME
 #
 #       20260222, MODIFICATION, V0.0.2, LZerres:  
-#           CHANGE 1
-#           CHANGE 2
-#           CHANGE 3
+#           Added Version Number to be displayed in the future
+#           Added Debug Messages for better understanding of the code and to be able to find bugs easier
+#           Added Number Format for Display in the Settings
+#           CHANGE 4
 #
 # ---------------------------------------------------------------------------
 

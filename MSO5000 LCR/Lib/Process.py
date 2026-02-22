@@ -1,10 +1,12 @@
 ﻿# Lib for all the Process stuff
 
+from hmac import new
 import  sys
 import  os
 import  time
 import  subprocess
 import  math
+from types import new_class
 import  pyvisa
 import  msvcrt
 from    calendar    import c
@@ -20,9 +22,11 @@ from    Lib.Output  import S
 
 # --------------------------------------------------------------------------- Variables
 
-Rounded =       0     # Decimal places for rounding
-Time_Delay =    0     # Time Delay for better UX
-Debug =         0     # Debug Variable
+Rounded =           0     # Decimal places for rounding
+Time_Delay =        0     # Time Delay for better UX
+Debug =             0     # Debug Variable
+Debug_Calc =        0     # Debug Variable for Calculations
+Number_Display =    0     # Variable for Displaying Numbers in different formats (Normal, Eng, SI)
 
 # --------------------------------------------------------------------------- define Paths
 
@@ -90,21 +94,22 @@ if(True):
             H_db,           Rounded_H_db
             ) = Calc_All(Rounded, dfCal, Y, X)  # Calculate everything
 
-            # O.dprintCalc(
-            #             X, Y,
-            #             Rounded_Voltage_Ue,
-            #             Rounded_Voltage_Ua,
-            #             Rounded_Current,
-            #             Rounded_Frequeny,
-            #             Rounded_PhaseOffset,
-            #             Rounded_Impedance_abs,
-            #             Rounded_Resistance,
-            #             Rounded_Blind,
-            #             Rounded_Impedance,
-            #             Rounded_H,
-            #             Rounded_H_db,
-            #             dfCal
-            #             )
+            # 20260222, MODIFICATION, V0.0.1, LZerres: Added Debug Messages for Calculations, so you can see what is calculated in each step
+            if (Debug == "yes") and (Debug_Calc == "yes"):
+                O.dprintCalc(
+                            X, Y,
+                            Rounded_Voltage_Ue,
+                            Rounded_Voltage_Ua,
+                            Rounded_Current,
+                            Rounded_Frequeny,
+                            Rounded_PhaseOffset,
+                            Rounded_Impedance_abs,
+                            Rounded_Resistance,
+                            Rounded_Blind,
+                            Rounded_Impedance,
+                            Rounded_H,
+                            Rounded_H_db,
+                            )
 
             Save_All    (
                         dfCal, dfCalRounded, X, Y,
@@ -314,12 +319,74 @@ if(True):
 # Functions Layer 4
 
 if(True):
+    def select_number_format(x):
+        match Number_Display:
+            case "normal":
+                return Round_Sig(x, Rounded)
+            case "eng":
+                return eng(x)
+            case "si":
+                return si_prefix(x)
+
+# -------------------------------------------------- Layer 5
+
+# Functions Layer 5
+
+if(True):
     def Round_Sig(x, Rounded):
         if x == 0:
             return 0
         return round(x, Rounded - 1 - int(math.floor(math.log10(abs(x)))))
 
-# --------------------------------------------------------------------------- End
+    # 20260222, MODIFICATION, V0.0.2, LZerres: Added convert a number to engineering notation
+    def eng(x): # Normal to Engineering Notation Converter
+        precision = Rounded
+
+        # Handle zero as a special case to avoid log10 issues
+        if x == 0:
+            return f"{0:.{precision}f}"
+        
+        # Calculate exponent and mantissa for engineering notation
+        exp = int(math.floor(math.log10(abs(x)) / 3) * 3)   # Round exponent to nearest multiple of 3
+        mantissa = x / (10**exp)                            # Calculate mantissa
+
+        # limit to ±999.999 mantissa
+        return f"{mantissa:.{precision}f}e{exp:+03d} "
+
+    # 20260222, MODIFICATION, V0.0.2, LZerres: Added a converter for normal to si prefixes
+    def si_prefix(x): # Normal to SI Prefix Converter
+
+        # Reading SI Prefixes from Excel File and preparing variables
+        filepath = os.path.join(Settings_Path, "SI_Prefixes.xlsx")
+        dfPrefix = pd.read_excel(filepath, header=None, index_col=None)
+        Xmax =          dfPrefix.shape[1]                          # Number of columns
+        Ymax =          dfPrefix.shape[0] - 1                      # Number of rows
+        X =             0
+        Y =             0
+
+        precision = Rounded
+
+        # Handle zero as a special case to avoid log10 issues
+        if x == 0:
+            return f"{0:.{precision}f}"
+        
+        # Calculate exponent and mantissa for engineering notation
+        exp = int(math.floor(math.log10(abs(x)) / 3) * 3)   # Round exponent to nearest multiple of 3
+        mantissa = x / (10**exp)                            # Calculate mantissa
+
+        # Find the SI prefix for the exponent from the Excel file
+        while (Y <= Ymax):
+            if dfPrefix.iloc[Y,2] == exp:
+                prefix = dfPrefix.iloc[Y,1]
+                if prefix == "none":
+                    prefix = ""
+                break
+            Y += 1
+
+        # limit to ±999.precision mantissa
+        return f"{mantissa:.{precision}f} {prefix}" 
+
+# --------------------------------------------------------------------------- End Math
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- Settings
 # Here Come all of the Functions
@@ -385,14 +452,17 @@ if(True):
 if(True):
     def Settings_Load(dfSettings):
 
-        global Rounded, Time_Delay, Debug
+        global Rounded, Time_Delay, Debug, Debug_Calc, Number_Display
 
-        Rounded =       int(dfSettings.iloc[0,1])
-        Time_Delay =    float(dfSettings.iloc[1,1])
-        Debug =         str(dfSettings.iloc[2,1])
+        Rounded =           int(dfSettings.iloc[0,1])
+        Time_Delay =        float(dfSettings.iloc[1,1])
+        Debug =             str(dfSettings.iloc[2,1])
+        Debug_Calc =        str(dfSettings.iloc[3,1])
+        Number_Display =    str(dfSettings.iloc[4,1])
     def Settings_Change(dfData):
 
-        global Rounded, Time_Delay, Debug
+        # 20260222, MODIFICATION, V0.0.1, LZerres: Added new setting for Debug Messages for Calculations and added this to the settings menu
+        global Rounded, Time_Delay, Debug, Debug_Calc, Number_Display
 
         again = 1
         while (again == 1):
@@ -441,6 +511,44 @@ if(True):
                     print("\n\ndo you wana change more Settings?")
                     again = int(input("2 = yes / 1 = no: ")) - 1
 
+                # 20260222, MODIFICATION, V0.0.2, LZerres: Added new setting for Debug Messages for Calculations
+                case "4":   # Debug Calc Messages
+                    O.Clear_CLI()
+                    print("Do u want Debug Messages")
+                    New_Value = input("Enter new value (Current: " + str(Debug_Calc) + ") (2 = Yes / 1 = No): ")
+
+                    if(New_Value == "1"):
+                        New_Value = "no"
+                    elif(New_Value == "2"):
+                        New_Value = "yes"
+
+                    if(New_Value == "yes") or (New_Value == "no"):
+                        Debug_Calc = str(New_Value)
+                        dfData.iloc[3,1] = Debug_Calc
+                        print("Debug Messages changed to: ", Debug_Calc)
+                    print("\n\ndo you wana change more Settings?")
+                    again = int(input("2 = yes / 1 = no: ")) - 1
+
+                # 20260222, MODIFICATION, V0.0.2, LZerres: Added new Setting for Number Display Format (Normal, Eng, SI) and added this to the settings menu
+                case "5":   # Number Display Format
+                    O.Clear_CLI()
+                    print("Do u want Debug Messages")
+                    New_Value = input("Enter new value (Current: " + str(Number_Display) + ") (3 = SI / 2 = ENG / 1 = NORMAL): ")
+
+                    if(New_Value == "1"):
+                        New_Value = "normal"
+                    elif(New_Value == "2"):
+                        New_Value = "eng"
+                    elif(New_Value == "3"):
+                        New_Value = "si"
+
+                    if(New_Value == "normal") or (New_Value == "eng") or (New_Value == "si"):
+                        Number_Display = str(New_Value)
+                        dfData.iloc[4,1] = Number_Display
+                        print("Debug Messages changed to: ", Number_Display)
+                    print("\n\ndo you wana change more Settings?")
+                    again = int(input("2 = yes / 1 = no: ")) - 1
+
                 case "99":  # Go back
                     O.Clear_CLI()
                     again = 0
@@ -455,7 +563,7 @@ if(True):
 # if(True): 
 #     print(1)
 
-# --------------------------------------------------------------------------- End
+# --------------------------------------------------------------------------- End Settings
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- Excel
 # Here Come all of the Functions
@@ -498,7 +606,7 @@ if(True):
 # if(True): 
 #     print(1)
 
-# --------------------------------------------------------------------------- End
+# --------------------------------------------------------------------------- End Excel
 # ----------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 # Here Come all of the Functions
