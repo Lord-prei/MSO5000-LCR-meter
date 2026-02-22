@@ -1,0 +1,1 @@
+python -m pyinstaller --onefile --icon=MSO5000 LCR Meter.ico MSO5000_LCR.py

@@ -21,8 +21,15 @@ import  Lib.Process as P
 # --------------------------------------------------------------------------- define Paths
 
 if (True):  # define Paths
-    Lib_Dir =       os.path.dirname(os.path.abspath(__file__))
-    Base_Dir =      os.path.dirname(Lib_Dir)
+    if getattr(sys, "frozen", False):
+        # Running as PyInstaller EXE
+        Base_Dir = os.path.dirname(sys.executable)
+        Lib_Dir  = os.path.join(Base_Dir, "Lib")
+    else:
+        # Running as normal Python script
+        Lib_Dir  = os.path.dirname(os.path.abspath(__file__))
+        Base_Dir = os.path.dirname(Lib_Dir)
+
     Settings_Path = os.path.join(Base_Dir, "Settings")
     Data_Path =     os.path.join(Base_Dir, "Data")
 
@@ -113,8 +120,8 @@ if(True):
 # Functions Layer 1
 
 if(True):
-    def dprintDir(Debug):
-        if(Debug == "yes"):
+    def dprintDir(): # printing debug for paths
+        if(P.Debug == "yes"):
             linePrint()
             print("All of the important Paths:\n")
             print("Base Dir = \t\t", Base_Dir)
@@ -125,6 +132,26 @@ if(True):
             print("End of Debug Paths")
             linePrint()
             waitForKeypress()
+
+    # 20260222, MODIFICATION, V0.0.2, LZerres: Debug messages for Calculations
+    # def dprintCalc(
+    #                 X, Y,
+    #                 Rounded_Voltage_Ue,
+    #                 Rounded_Voltage_Ua,
+    #                 Rounded_Current,
+    #                 Rounded_Frequeny,
+    #                 Rounded_PhaseOffset,
+    #                 Rounded_Impedance_abs,
+    #                 Rounded_Resistance,
+    #                 Rounded_Blind,
+    #                 Rounded_Impedance,
+    #                 Rounded_H,
+    #                 Rounded_H_db,
+    #                 dfCal
+    #                 ): 
+    #     if(P.Debug == "yes"):
+    #         print(dfCal[Y]
+
 
 # -------------------------------------------------- Layer 2
 

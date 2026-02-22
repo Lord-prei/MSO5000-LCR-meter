@@ -27,8 +27,15 @@ Debug =         0     # Debug Variable
 # --------------------------------------------------------------------------- define Paths
 
 if (True):  # define Paths
-    Lib_Dir =       os.path.dirname(os.path.abspath(__file__))
-    Base_Dir =      os.path.dirname(Lib_Dir)
+    if getattr(sys, "frozen", False):
+        # Running as PyInstaller EXE
+        Base_Dir = os.path.dirname(sys.executable)
+        Lib_Dir  = os.path.join(Base_Dir, "Lib")
+    else:
+        # Running as normal Python script
+        Lib_Dir  = os.path.dirname(os.path.abspath(__file__))
+        Base_Dir = os.path.dirname(Lib_Dir)
+
     Settings_Path = os.path.join(Base_Dir, "Settings")
     Data_Path =     os.path.join(Base_Dir, "Data")
 
@@ -45,7 +52,7 @@ dfSettings = pd.read_excel(file_path, header=None, index_col=None)
 # Functions Layer 1
 
 if(True):
-    def Impedance_Calculation(Rounded, Debug): # Main Function for Calculating Everything
+    def Impedance_Calculation(Rounded): # Main Function for Calculating Everything
         # Reading Data from Excel File and preparing variables
         file_path =     os.path.join(Data_Path, "Clean.xlsx")   # Cleaned data from MSO5000
         dfCal =         pd.read_excel(file_path)                # Cleaned data from MSO5000
@@ -82,6 +89,22 @@ if(True):
             H,              Rounded_H,
             H_db,           Rounded_H_db
             ) = Calc_All(Rounded, dfCal, Y, X)  # Calculate everything
+
+            # O.dprintCalc(
+            #             X, Y,
+            #             Rounded_Voltage_Ue,
+            #             Rounded_Voltage_Ua,
+            #             Rounded_Current,
+            #             Rounded_Frequeny,
+            #             Rounded_PhaseOffset,
+            #             Rounded_Impedance_abs,
+            #             Rounded_Resistance,
+            #             Rounded_Blind,
+            #             Rounded_Impedance,
+            #             Rounded_H,
+            #             Rounded_H_db,
+            #             dfCal
+            #             )
 
             Save_All    (
                         dfCal, dfCalRounded, X, Y,
@@ -403,8 +426,15 @@ if(True):
                 case "3":   # Debug Messages
                     O.Clear_CLI()
                     print("Do u want Debug Messages")
-                    New_Value = input("Enter new value (Current: " + str(Debug) + ") (yes/no): ")
-                    if (New_Value == "yes") or (New_Value == "no"):
+                    New_Value = input("Enter new value (Current: " + str(Debug) + ") (2 = Yes/ 1 = No): ")
+
+                    # 20260222, MODIFICATION, V0.0.2, LZerres: Added this so all settings can be change by numbers (UX)
+                    if(New_Value == "1"):
+                        New_Value = "no"
+                    elif(New_Value == "2"):
+                        New_Value = "yes"
+
+                    if(New_Value == "yes") or (New_Value == "no"):
                         Debug = str(New_Value)
                         dfData.iloc[2,1] = Debug
                         print("Debug Messages changed to: ", Debug)

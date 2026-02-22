@@ -1,3 +1,39 @@
+# ----------------------------------------------------------------------------------------------------
+#       Project: MSO5000 LCR Meter
+#       Purpose: To automate LCR analisys for my Oscilloscope
+#       Version: V0.0.2
+# ----------------------------------------------------------------------------------------------------
+#       Version control
+# --------------------------------------------------------------------------- Copypaste
+#
+#       VERSIONNAME
+#
+#       JJJJMMDD, MODIFICATION, Vx.x.x, LZerres:  
+#           CHANGE 1
+#           CHANGE 2
+#           CHANGE 3
+#
+# --------------------------------------------------------------------------- V0.0.1
+#
+#       Initial Release
+#
+#       20260222, MODIFICATION, V0.0.1, LZerres:  
+#           Navigatable CLI
+#           Added some calculations
+#           Added settings
+#           Made some Libs: Input, Process, Output and added structure in them
+#
+# ---------------------------------------------------------------------------
+#
+#       VERSIONNAME
+#
+#       20260222, MODIFICATION, V0.0.2, LZerres:  
+#           CHANGE 1
+#           CHANGE 2
+#           CHANGE 3
+#
+# ---------------------------------------------------------------------------
+
 import  sys
 import  os
 import  time
@@ -17,7 +53,7 @@ import  Lib.Process as P
 import  Lib.Output  as O
 from    Lib.Output  import S
 
-
+VERSION_SW = "0.0.2"    # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
 
 # --------------------------------------------------------------------------- Variables
 
@@ -41,7 +77,11 @@ class constant(Enum):
 # --------------------------------------------------------------------------- define Paths
 
 if (True): # define Paths
-    Base_Dir =      os.path.dirname(os.path.abspath(__file__))
+    if getattr(sys, "frozen", False):
+        Base_Dir = os.path.dirname(sys.executable)
+    else:
+        Base_Dir = os.path.dirname(os.path.abspath(__file__))
+
     Settings_Path = os.path.join(Base_Dir, "Settings")
     Data_Path =     os.path.join(Base_Dir, "Data")
 
@@ -49,7 +89,7 @@ if (True): # define Paths
 
 P.Settings("Custom", "Load", 0) # Load Custom Settings
 O.Clear_CLI()
-O.dprintDir(P.Debug)            # Printing Debug message
+O.dprintDir()                   # Printing Debug message
 P.createExcel(0, 0, "Test")
 
 # --------------------------------------------------------------------------- Main Loop
@@ -82,7 +122,7 @@ while True: # Main Loop
                     case "1":   # Calculate Data and export as Excel Files
                         O.Clear_CLI()
                         print("Calculate Data and export as Excel Files")
-                        P.Impedance_Calculation(P.Rounded, P.Debug)
+                        P.Impedance_Calculation(P.Rounded)
 
                     case "2":   # Plot Data (WIP)
                         O.Clear_CLI()
