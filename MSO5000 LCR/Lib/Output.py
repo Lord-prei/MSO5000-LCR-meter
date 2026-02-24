@@ -63,8 +63,8 @@ if(True):
     def TXT_Dialog(n):                  # All of the text dialog stuff
         match n:
             case S.START_TEXT:          # Starting Text
-                print(  "Hello and Welcome to the MSO5000 LCR Measurement Tool\n"
-                        "This tool helps you to measure and analyze LCR components with the MSO5000\n\n\n")
+                print(  "Hello and Welcome to DIE (Debug Instrument Engine)\n"
+                        "This tool helps you to measure and analyze LCR components with the MSO5000 (Maybe more lator)\n\n\n")
 
             case S.PICK_TEXT1:          # Main Menu
                 print(  "What do u wanna do? (Pick from List)\n\n")

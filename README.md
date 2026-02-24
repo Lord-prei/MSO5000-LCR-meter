@@ -1,5 +1,5 @@
-# MSO5000-LCR-meter  
-An automatic LCR meter for the MSO5000.  
+# DIE (Debug Instrument Engine)
+An automatic LCR meter for the MSO5000 (Maybe more Instruments lator).  
   
 # Roadmap  
 The Roadmap might be updated while working on this.
@@ -10,7 +10,8 @@ The Roadmap might be updated while working on this.
 [x]	Home menu  
 [x]	Fully working settings  
 [x]	Debug setting  
-[ ]	Adding prefixes  
+[x]	Adding prefixes  
+[ ] Adding all the Navigation Text
 [ ]	Cleaning up the code
 
 ----------------------------------------------------------------------------

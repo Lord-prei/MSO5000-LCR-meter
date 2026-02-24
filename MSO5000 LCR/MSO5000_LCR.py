@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------------------
-#       Project: MSO5000 LCR Meter
+#       Project: DIE (Debug Instrument Engine) | Formaly known as MSO5000 LCR Meter
 #       Purpose: To automate LCR analisys for my Oscilloscope
 #       Version: V0.0.2
 # ----------------------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@
 #           Added Version Number to be displayed in the future
 #           Added Debug Messages for better understanding of the code and to be able to find bugs easier
 #           Added Number Format for Display in the Settings
-#           CHANGE 4
+#           Changed Project name to DIE (Debug Instrument Engine) because it sounds cooler and more general, maybe i can add more instruments in the future
 #
 # ---------------------------------------------------------------------------
 
@@ -55,6 +55,8 @@ import  Lib.Output  as O
 from    Lib.Output  import S
 
 VERSION_SW = "0.0.2"    # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+
+print(f"\x1b]0;DIE V{VERSION_SW}\x07");
 
 # --------------------------------------------------------------------------- Variables
 
@@ -199,6 +201,6 @@ while True: # Main Loop
 
         case "99":  # Exit Program
             O.Clear_CLI()
-            print("Exit Program")
+            print("Program about to DIE")
             time.sleep(P.Time_Delay)  # Short Delay for better UX
             sys.exit()
