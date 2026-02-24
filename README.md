@@ -11,7 +11,7 @@ The Roadmap might be updated while working on this.
 [x]	Fully working settings  
 [x]	Debug setting  
 [x]	Adding prefixes  
-[ ] Adding all the Navigation Text
+[ ] Adding all the Navigation Text  
 [ ]	Cleaning up the code
 
 ----------------------------------------------------------------------------
