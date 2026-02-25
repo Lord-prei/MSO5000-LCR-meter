@@ -8,7 +8,7 @@
 #
 #       VERSIONNAME
 #
-#       JJJJMMDD, MODIFICATION, Vx.x.x, LZerres:  
+#       JJJJMMDD, MODIFICATION, Vx.x.x, LZerres:
 #           CHANGE 1
 #           CHANGE 2
 #           CHANGE 3
@@ -17,7 +17,7 @@
 #
 #       Initial Release
 #
-#       20260222, MODIFICATION, V0.0.1, LZerres:  
+#       20260222, MODIFICATION, V0.0.1, LZerres:
 #           Navigatable CLI
 #           Added some calculations
 #           Added settings
@@ -25,13 +25,22 @@
 #
 # --------------------------------------------------------------------------- V0.0.2
 #
-#       VERSIONNAME
+#       Number Format for Display in the Settings
 #
-#       20260222, MODIFICATION, V0.0.2, LZerres:  
+#       20260222, MODIFICATION, V0.0.2, LZerres:
 #           Added Version Number to be displayed in the future
 #           Added Debug Messages for better understanding of the code and to be able to find bugs easier
 #           Added Number Format for Display in the Settings
 #           Changed Project name to DIE (Debug Instrument Engine) because it sounds cooler and more general, maybe i can add more instruments in the future
+#
+# ---------------------------------------------------------------------------
+#
+#       VERSIONNAME
+#
+#       20260225, MODIFICATION, V0.0.3, LZerres:
+#           CHANGE 1
+#           CHANGE 2
+#           CHANGE 3
 #
 # ---------------------------------------------------------------------------
 
@@ -54,15 +63,19 @@ import  Lib.Process as P
 import  Lib.Output  as O
 from    Lib.Output  import S
 
-VERSION_SW = "0.0.2"    # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+VERSION_SW = "0.0.3"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
 
-print(f"\x1b]0;DIE V{VERSION_SW}\x07");
+print(f"\x1b]0;DIE V{VERSION_SW}\x07")
+# 20260222, MODIFICATION, V0.0.2, LZerres: Added Version Number to be displayed in CLI title
 
 # --------------------------------------------------------------------------- Variables
 
-repeat      = 0     # Variable for repeating loops
+repeat1 = 0     # Variable for repeating loops 1
+repeat2 = 0     # Variable for repeating loops 2
+repeat3 = 0     # Variable for repeating loops 3
 
 # --------------------------------------------------------------------------- Constants
+
 
 class constant(Enum):
     # For Graphing
@@ -77,82 +90,89 @@ class constant(Enum):
 
     # Random ah
 
+
 # --------------------------------------------------------------------------- define Paths
 
-if (True): # define Paths
+if True:  # define Paths
     if getattr(sys, "frozen", False):
-        Base_Dir = os.path.dirname(sys.executable)
+        Base_Dir =  os.path.dirname(sys.executable)
     else:
-        Base_Dir = os.path.dirname(os.path.abspath(__file__))
+        Base_Dir =  os.path.dirname(os.path.abspath(__file__))
 
     Settings_Path = os.path.join(Base_Dir, "Settings")
     Data_Path =     os.path.join(Base_Dir, "Data")
 
 # --------------------------------------------------------------------------- Init
 
-P.Settings("Custom", "Load", 0) # Load Custom Settings
+P.Settings("Custom", "Load", 0)  # Load Custom Settings
 O.Clear_CLI()
-O.dprintDir()                   # Printing Debug message
+O.dprintDir()                    # Printing Debug message
 P.createExcel(0, 0, "Test")
 
 # --------------------------------------------------------------------------- Main Loop
 
-while True: # Main Loop
+while True:  # Main Loop
     O.Clear_CLI()
     O.TXT_Dialog(S.START_TEXT)  # Starting Text
     O.TXT_Dialog(S.PICK_TEXT1)  # pick from list text
 
-    n = input("Your Input: ")   # User Input
-    
+    n = input("Your Input: ")  # User Input
+
     match n:
-        case "1":   # Measure LCR Component (WIP)
+        case "1":  # Measure LCR Component (WIP)
             O.Clear_CLI()
             print("Measure LCR Component")
-            
-        case "2":   # Analyze / Calculate existing Measurement
+
+            repeat1 = 1
+
+            # while repeat1 == 1:
+            #     O.Clear_CLI()
+            #     O.TXT_Dialog()
+
+        case "2":  # Analyze / Calculate existing Measurement
             O.Clear_CLI()
             print("Analyze / Calculate existing Measurement")
 
-            repeat = 1
+            repeat1 = 1
 
-            while (repeat == 1):
+            while repeat1 == 1:
                 O.Clear_CLI()
-                O.TXT_Dialog(S.PICK_TEXT2)          # pick from list text
+                O.TXT_Dialog(S.PICK_TEXT2)
                 User_Input = input("Your Input: ")  # User Input
-                
+
                 match User_Input:
 
-                    case "1":   # Calculate Data and export as Excel Files
+                    case "1":  # Calculate Data and export as Excel Files
                         O.Clear_CLI()
                         print("Calculate Data and export as Excel Files")
                         P.Impedance_Calculation(P.Rounded)
 
-                    case "2":   # Plot Data (WIP)
+                    case "2":  # Plot Data (WIP)
                         O.Clear_CLI()
                         print("Plot Data")
 
-                    case "3":   # Both Calculate and Plot Data (WIP)
+                    case "3":  # Both Calculate and Plot Data (WIP)
                         O.Clear_CLI()
                         print("Both Calculate and Plot Data")
 
-                    case "99":  # Go back
+                    case "99": # Go back
                         O.Clear_CLI()
-                        repeat = 0
+                        repeat1 = 0
                         print("Exit to Main Menu")
                         time.sleep(P.Time_Delay)
 
-        case "3":   # Settings
+        case "3":  # Settings
             O.Clear_CLI()
 
-            repeat = 1
+            repeat1 = 1
 
-            while (repeat == 1):
+            while repeat1 == 1:
                 O.Clear_CLI()
                 O.TXT_Dialog(S.PICK_TEXT3)
-                User_Input = input("Your Input: ")
+                User_Input = input("Your Input: ") # User Input
 
                 match User_Input:
-                    case "1":   # Load Default Settings
+                    case "1":  # Load Default Settings
                         O.Clear_CLI()
                         print("Loaded Default Settings")
 
@@ -160,7 +180,7 @@ while True: # Main Loop
 
                         time.sleep(P.Time_Delay)
 
-                    case "2":   # Load Custom Settings
+                    case "2":  # Load Custom Settings
                         O.Clear_CLI()
                         print("Loaded Custom Settings")
 
@@ -168,7 +188,7 @@ while True: # Main Loop
 
                         time.sleep(P.Time_Delay)
 
-                    case "3":   # Show Current Settings
+                    case "3":  # Show Current Settings
                         O.Clear_CLI()
                         print("Current Settings:\n\n")
 
@@ -176,14 +196,14 @@ while True: # Main Loop
 
                         O.waitForKeypress()
 
-                    case "4":   # Change Settings
+                    case "4":  # Change Settings
                         file_path = os.path.join(Settings_Path, "Settings_Current.xlsx")
                         dfData = pd.read_excel(file_path, header=None, index_col=None)
 
                         P.Settings_Change(dfData)
-                        P.Settings ("Current", "Save", dfData)
+                        P.Settings("Current", "Save", dfData)
 
-                    case "5":   # Save Current Settings as Custom Settings
+                    case "5":  # Save Current Settings as Custom Settings
                         O.Clear_CLI()
                         print("Save Current Settings as Custom Settings")
                         file_path = os.path.join(Settings_Path, "Settings_Current.xlsx")
@@ -193,9 +213,9 @@ while True: # Main Loop
                         print("\nCurrent Settings saved as Custom Settings")
                         time.sleep(P.Time_Delay)
 
-                    case "99":
+                    case "99": # Go back
                         O.Clear_CLI()
-                        repeat = 0
+                        repeat1 = 0
                         print("Exit to Main Menu")
                         time.sleep(P.Time_Delay)
 
