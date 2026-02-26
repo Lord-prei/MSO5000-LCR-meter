@@ -38,8 +38,8 @@
 #       VERSIONNAME
 #
 #       20260225, MODIFICATION, V0.0.3, LZerres:
-#           CHANGE 1
-#           CHANGE 2
+#           Replaced all if True statements with region so it still has the same effects but is more structured and easier to read
+#           Fixed the bug for when the user types the frong input it crashes the program, now it returns "Invalid Input" and asks the user to try again
 #           CHANGE 3
 #
 # ---------------------------------------------------------------------------
@@ -93,14 +93,14 @@ class constant(Enum):
 
 # --------------------------------------------------------------------------- define Paths
 
-if True:  # define Paths
-    if getattr(sys, "frozen", False):
-        Base_Dir =  os.path.dirname(sys.executable)
-    else:
-        Base_Dir =  os.path.dirname(os.path.abspath(__file__))
+# define Paths
+if getattr(sys, "frozen", False):
+    Base_Dir =  os.path.dirname(sys.executable)
+else:
+    Base_Dir =  os.path.dirname(os.path.abspath(__file__))
 
-    Settings_Path = os.path.join(Base_Dir, "Settings")
-    Data_Path =     os.path.join(Base_Dir, "Data")
+Settings_Path = os.path.join(Base_Dir, "Settings")
+Data_Path =     os.path.join(Base_Dir, "Data")
 
 # --------------------------------------------------------------------------- Init
 
@@ -140,9 +140,10 @@ while True:  # Main Loop
                 O.TXT_Dialog(S.PICK_TEXT2)
                 User_Input = input("Your Input: ")  # User Input
 
-                # P.checkUserInput(User_Input)
+                # 20260225, MODIFICATION, V0.0.3, LZerres: Added this to Validate User Input (when wrong it returns "FALSE")
+                processedInput = P.userInputValidation(User_Input, "number")
 
-                match User_Input:
+                match processedInput:
 
                     case "1":  # Calculate Data and export as Excel Files
                         O.Clear_CLI()
@@ -163,6 +164,14 @@ while True:  # Main Loop
                         print("Exit to Main Menu")
                         time.sleep(P.Time_Delay)
 
+                    case "FALSE": # 20260225, MODIFICATION, V0.0.3, LZerres: Added for input Validation
+                        # Invalid Input
+                        O.Clear_CLI()
+                        print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot")
+                        O.waitForKeypress()
+
+
+
         case "3":  # Settings
             O.Clear_CLI()
 
@@ -173,7 +182,10 @@ while True:  # Main Loop
                 O.TXT_Dialog(S.PICK_TEXT3)
                 User_Input = input("Your Input: ") # User Input
 
-                match User_Input:
+                # 20260225, MODIFICATION, V0.0.3, LZerres: Added this to Validate User Input (when wrong it returns "FALSE")
+                processedInput = P.userInputValidation(User_Input, "number")
+
+                match processedInput:
                     case "1":  # Load Default Settings
                         O.Clear_CLI()
                         print("Loaded Default Settings")
@@ -220,6 +232,12 @@ while True:  # Main Loop
                         repeat1 = 0
                         print("Exit to Main Menu")
                         time.sleep(P.Time_Delay)
+
+                    case "FALSE": # 20260225, MODIFICATION, V0.0.3, LZerres: Added for input Validation
+                        # Invalid Input
+                        O.Clear_CLI()
+                        print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot")
+                        O.waitForKeypress()
 
         case "99":  # Exit Program
             O.Clear_CLI()

@@ -21,6 +21,8 @@ import  Lib.Process as P
 # --------------------------------------------------------------------------- define Paths
 
 # define Paths
+# region Paths
+
 if getattr(sys, "frozen", False):
     # Running as PyInstaller EXE
     Base_Dir =  os.path.dirname(sys.executable)
@@ -33,6 +35,7 @@ else:
 Settings_Path = os.path.join(Base_Dir, "Settings")
 Data_Path =     os.path.join(Base_Dir, "Data")
 
+# endregion Paths
 
 class S(Enum):
     # All of the text dialog variables
@@ -45,6 +48,7 @@ class S(Enum):
 
 # --------------------------------------------------------------------------- Formating
 # Here Come all of the Functions
+# region Formating
 
 columns, rows = shutil.get_terminal_size()
 # print(f"Your CMD is {columns} characters wide and {rows} lines tall.")
@@ -52,7 +56,8 @@ columns, rows = shutil.get_terminal_size()
 # -------------------------------------------------- Layer 1
 
 # Functions Layer 1
-
+# region Functions Layer 1
+    
 def linePrint():
     print("-" * columns)
 
@@ -110,27 +115,36 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "5 : Number Format for Display (Current: " + str(P.Number_Display) + ")\n"
                     "99: Go back\n\n"
                     )
+            
+# endregion Functions Layer 1
 
 # -------------------------------------------------- Layer 2
 
 # Functions Layer 2
+# region Functions Layer 2
 
+# Code for Functions Layer 2
 
+# endregion Functions Layer 2
 
 # -------------------------------------------------- Layer 3
 
 # Functions Layer 3
+# region Functions Layer 3
 
+# Code for Functions Layer 3
 
-
+# endregion Functions Layer 3
+# endregion Formating
 # --------------------------------------------------------------------------- End Formating
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- Debug
 # Here Come all of the Functions
-
+# region Debug
 # -------------------------------------------------- Layer 1
 
 # Functions Layer 1
+# region Functions Layer 1
 
 def dprintDir():  # printing debug for paths
     if P.Debug == "yes":
@@ -177,40 +191,60 @@ def dprintCalc(
             f"H:\t{P.select_number_format(Rounded_H)}\t| "
             f"H(dB):\t{P.select_number_format(Rounded_H_db)}dB"
         )
+            
+# endregion Functions Layer 1
 
 # -------------------------------------------------- Layer 2
 
 # Functions Layer 2
+# region Functions Layer 2
 
+# Code for Functions Layer 2
 
+# endregion Functions Layer 2
 
 # -------------------------------------------------- Layer 3
 
 # Functions Layer 3
+# region Functions Layer 3
 
+# Code for Functions Layer 3
 
+# endregion Functions Layer 3
 
+# endregion Debug
 # --------------------------------------------------------------------------- End Debug
 # ----------------------------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- 
 # Here Come all of the Functions
+# region Functions
 
 # -------------------------------------------------- Layer 1
 
 # Functions Layer 1
+# region Functions Layer 1
 
+# Code for Functions Layer 1
 
+# endregion Functions Layer 1
 
 # -------------------------------------------------- Layer 2
 
 # Functions Layer 2
+# region Functions Layer 2
 
+# Code for Functions Layer 2
 
+# endregion Functions Layer 2
 
 # -------------------------------------------------- Layer 3
 
 # Functions Layer 3
+# region Functions Layer 3
 
+# Code for Functions Layer 3
 
+# endregion Functions Layer 3
 
-# ---------------------------------------------------------------------------
+# endregion Functions
+# --------------------------------------------------------------------------- 
