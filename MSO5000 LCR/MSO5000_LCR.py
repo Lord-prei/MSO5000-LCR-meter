@@ -40,7 +40,6 @@
 #       20260225, MODIFICATION, V0.0.3, LZerres:
 #           Replaced all if True statements with region so it still has the same effects but is more structured and easier to read
 #           Fixed the bug for when the user types the frong input it crashes the program, now it returns "Invalid Input" and asks the user to try again
-#           CHANGE 3
 #
 # ---------------------------------------------------------------------------
 
