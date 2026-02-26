@@ -18,14 +18,18 @@ The Roadmap might be updated while working on this.
 
 [ ]	Impedance calculations fully working  
 [ ]	Comunication  
-[ ] Adding all the Navigation Text  
 
 ----------------------------------------------------------------------------
 	V0.3
 	
-[ ]	Sweep menu and co.  
+[ ]	Basic linear Sweep
 
 ----------------------------------------------------------------------------
 	V0.4
-	
-[ ]	GUI  
+
+[ ]	Log Sweep
+
+----------------------------------------------------------------------------
+	V0.5
+
+[ ]	Graphing
