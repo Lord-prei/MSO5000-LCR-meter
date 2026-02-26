@@ -20,18 +20,18 @@ from    Lib.Output  import S
 
 # --------------------------------------------------------------------------- define Paths
 
-if True:  # define Paths
-    if getattr(sys, "frozen", False):
-        # Running as PyInstaller EXE
-        Base_Dir = os.path.dirname(sys.executable)
-        Lib_Dir = os.path.join(Base_Dir, "Lib")
-    else:
-        # Running as normal Python script
-        Lib_Dir = os.path.dirname(os.path.abspath(__file__))
-        Base_Dir = os.path.dirname(Lib_Dir)
+# define Paths
+if getattr(sys, "frozen", False):
+    # Running as PyInstaller EXE
+    Base_Dir =  os.path.dirname(sys.executable)
+    Lib_Dir =   os.path.join(Base_Dir, "Lib")
+else:
+    # Running as normal Python script
+    Lib_Dir =   os.path.dirname(os.path.abspath(__file__))
+    Base_Dir =  os.path.dirname(Lib_Dir)
 
-    Settings_Path = os.path.join(Base_Dir, "Settings")
-    Data_Path = os.path.join(Base_Dir, "Data")
+Settings_Path = os.path.join(Base_Dir, "Settings")
+Data_Path =     os.path.join(Base_Dir, "Data")
 
 # ---------------------------------------------------------------------------
 # Here Come all of the Functions
@@ -40,22 +40,19 @@ if True:  # define Paths
 
 # Functions Layer 1
 
-# if True:
-#     print(1)
+
 
 # -------------------------------------------------- Layer 2
 
 # Functions Layer 2
 
-# if True:
-#     print(1)
+
 
 # -------------------------------------------------- Layer 3
 
 # Functions Layer 3
 
-# if True:
-#     print(1)
+
 
 # ---------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
@@ -66,21 +63,18 @@ if True:  # define Paths
 
 # Functions Layer 1
 
-# if True:
-#     print(1)
+
 
 # -------------------------------------------------- Layer 2
 
 # Functions Layer 2
 
-# if True:
-#     print(1)
+
 
 # -------------------------------------------------- Layer 3
 
 # Functions Layer 3
 
-# if True:
-#     print(1)
+
 
 # ---------------------------------------------------------------------------
