@@ -11,7 +11,6 @@ The Roadmap might be updated while working on this.
 [x]	Fully working settings  
 [x]	Debug setting  
 [x]	Adding prefixes  
-[ ] Adding all the Navigation Text  
 [ ]	Cleaning up the code
 
 ----------------------------------------------------------------------------
@@ -19,6 +18,7 @@ The Roadmap might be updated while working on this.
 
 [ ]	Impedance calculations fully working  
 [ ]	Comunication  
+[ ] Adding all the Navigation Text  
 
 ----------------------------------------------------------------------------
 	V0.3
