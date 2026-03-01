@@ -50,7 +50,16 @@
 #           Added About Text in the Main Menu
 #           Added new case for connection to Oscilloscope (this is still WIP and will be added in the future)
 #
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- V0.1.1
+#
+#       VERSIONNAME
+#
+#       JJJJMMDD, MODIFICATION, V0.1.1, LZerres:
+#           CHANGE 1
+#           CHANGE 2
+#           CHANGE 3
+#
+# --------------------------------------------------------------------------- 
 
 import  sys
 import  os
@@ -71,7 +80,7 @@ import  Lib.Process as P
 import  Lib.Output  as O
 from    Lib.Output  import S
 
-VERSION_SW = "0.1.0"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+VERSION_SW = "0.1.1"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
 O.whatVersion(VERSION_SW) # 20260301, MODIFICATION, V0.1.0, LZerres: Added this function so the Version Number can be used in other Libs
 
 print(f"\x1b]0;DIE V{VERSION_SW}\x07") # 20260222, MODIFICATION, V0.0.2, LZerres: Added Version Number to be displayed in CLI title
