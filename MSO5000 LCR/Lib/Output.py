@@ -8,6 +8,8 @@ import  math
 import  pyvisa
 import  msvcrt
 import  shutil
+import  psutil
+import  platform
 from    calendar    import c
 from    re          import DEBUG
 from    turtle      import clear
@@ -130,8 +132,9 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "Version: V"+ VERSION_SW + "\n\n"
                     "This tool helps you to measure and analyze LCR components with the MSO5000 (Maybe more lator)\n\n"
                     "Created by Lord_prei in 2025\n"
-                    "GitHub:https://github.com/Lord-prei/MSO5000-LCR-meter\n\n"
+                    "GitHub: https://github.com/Lord-prei/MSO5000-LCR-meter\n\n"
                     )
+            getSystemInfo() # 20260301, MODIFICATION, V0.1.1, LZerres: Call to new Function to get System Information
             
 # endregion Functions Layer 1
 
@@ -140,7 +143,32 @@ def TXT_Dialog(n):  # All of the text dialog stuff
 # Functions Layer 2
 # region Functions Layer 2
 
-# Code for Functions Layer 2
+# 20260301, MODIFICATION, V0.1.1, LZerres: New Function to get System Information for About Section
+def getSystemInfo():
+    systemPlattform = sys.platform
+    systemInfo = platform.platform()
+    osBuildNumber = platform.version()
+    systemArchitecure = platform.architecture()[0]
+    systemProcessor = platform.processor()
+    systemThreadCount = os.cpu_count()
+    systemCoreCount = os.cpu_count() // 2  # Assuming hyperthreading, this is a common way to estimate core count
+    systemRAMusage = psutil.virtual_memory().used / (1024 ** 3)  # RAM usage in GB
+    systemRAMtotal = psutil.virtual_memory().total / (1024 ** 3)  # Total RAM in GB
+    systemRAMpercent = psutil.virtual_memory().percent  # RAM usage percentage
+    systemRAMfree = psutil.virtual_memory().free / (1024 ** 3)  # Free RAM in GB
+    linePrint()
+    print("\nYour System Information:\n")
+    print(f"Your System Info is: \t\t{systemInfo}")
+    print(f"Your System Plattform is: \t{systemPlattform}")
+    print(f"Your OS Build Number is: \t{osBuildNumber}")
+    print(f"Your System Architecure is: \t{systemArchitecure}")
+    print(f"Your System Processor is: \t{systemProcessor}")
+    print(f"Your System Core Count is: \t{systemCoreCount}")
+    print(f"Your System Thread Count is: \t{systemThreadCount}")
+    print(f"Your System Total RAM is: \t{systemRAMtotal:.2f} GB")
+    print(f"Your System Free RAM is: \t{systemRAMfree:.2f} GB")
+    print(f"Your System RAM Usage is: \t{systemRAMusage:.2f} GB")
+    print(f"Your System RAM Usage % is: \t{systemRAMpercent:.2f}%")
 
 # endregion Functions Layer 2
 

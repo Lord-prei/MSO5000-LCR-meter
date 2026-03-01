@@ -54,8 +54,8 @@
 #
 #       VERSIONNAME
 #
-#       JJJJMMDD, MODIFICATION, V0.1.1, LZerres:
-#           CHANGE 1
+#       20260301, MODIFICATION, V0.1.1, LZerres:
+#           Added System info to the About Text
 #           CHANGE 2
 #           CHANGE 3
 #
