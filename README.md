@@ -11,7 +11,7 @@ The Roadmap might be updated while working on this.
 [x]	Fully working settings  
 [x]	Debug setting  
 [x]	Adding prefixes  
-[ ]	Cleaning up the code
+[x]	Cleaning up the code
 
 ----------------------------------------------------------------------------
 	V0.2
