@@ -33,13 +33,22 @@
 #           Added Number Format for Display in the Settings
 #           Changed Project name to DIE (Debug Instrument Engine) because it sounds cooler and more general, maybe i can add more instruments in the future
 #
-# ---------------------------------------------------------------------------
+# --------------------------------------------------------------------------- V0.0.3
 #
-#       VERSIONNAME
+#       Bugfixes and Code cleaned
 #
 #       20260225, MODIFICATION, V0.0.3, LZerres:
 #           Replaced all if True statements with region so it still has the same effects but is more structured and easier to read
 #           Fixed the bug for when the user types the frong input it crashes the program, now it returns "Invalid Input" and asks the user to try again
+#
+# --------------------------------------------------------------------------- V0.1.0
+#
+#       Last Bugfixes and Code cleaned
+#
+#       20260301, MODIFICATION, V0.1.0, LZerres:
+#           Fixed last bug for craing when user types wrong input in the Settings Menu
+#           Added About Text in the Main Menu
+#           Added new case for connection to Oscilloscope (this is still WIP and will be added in the future)
 #
 # ---------------------------------------------------------------------------
 
@@ -62,10 +71,10 @@ import  Lib.Process as P
 import  Lib.Output  as O
 from    Lib.Output  import S
 
-VERSION_SW = "0.0.3"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+VERSION_SW = "0.1.0"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+O.whatVersion(VERSION_SW) # 20260301, MODIFICATION, V0.1.0, LZerres: Added this function so the Version Number can be used in other Libs
 
-print(f"\x1b]0;DIE V{VERSION_SW}\x07")
-# 20260222, MODIFICATION, V0.0.2, LZerres: Added Version Number to be displayed in CLI title
+print(f"\x1b]0;DIE V{VERSION_SW}\x07") # 20260222, MODIFICATION, V0.0.2, LZerres: Added Version Number to be displayed in CLI title
 
 # --------------------------------------------------------------------------- Variables
 
@@ -169,8 +178,6 @@ while True:  # Main Loop
                         print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot")
                         O.waitForKeypress()
 
-
-
         case "3":  # Settings
             O.Clear_CLI()
 
@@ -238,7 +245,18 @@ while True:  # Main Loop
                         print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot")
                         O.waitForKeypress()
 
-        case "99":  # Exit Program
+        case "4":  # Connect to Oscilloscope (WIP)
+            # 20260301, MODIFICATION, V0.1.0, LZerres: Added this case for connection stuff
+            O.Clear_CLI()
+            print("Connect to Oscilloscope")
+
+        case "98": # About
+            # 20260301, MODIFICATION, V0.1.0, LZerres: Added this case for About Text (this will be updated in the future with more info about the project)
+            O.Clear_CLI()
+            O.TXT_Dialog(S.ABOUT_TEXT)
+            O.waitForKeypress()
+
+        case "99": # Exit Program
             O.Clear_CLI()
             print("Program about to DIE")
             time.sleep(P.Time_Delay)  # Short Delay for better UX

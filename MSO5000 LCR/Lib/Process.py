@@ -855,7 +855,7 @@ def Settings_Change(dfData):
             case "FALSE": # 20260225, MODIFICATION, V0.0.3, LZerres: Added for input Validation
                         # Invalid Input
                         O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{New_Value}\x1b[0m), try again idiot")
+                        print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot") # 20260301, MODIFICATION, V0.1.0, LZerres: Copy paste mistake fixed
                         O.waitForKeypress()
                         again = 1
 

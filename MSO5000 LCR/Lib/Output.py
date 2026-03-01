@@ -44,7 +44,12 @@ class S(Enum):
     PICK_TEXT2 = 3
     PICK_TEXT3 = 4
     PICK_TEXT_SETTINGS = 5
+    ABOUT_TEXT = 6
 
+VERSION_SW = 0
+def whatVersion(VERSION): # 20260301, MODIFICATION, V0.1.0, LZerres: Function to get Version from main
+    global VERSION_SW
+    VERSION_SW = VERSION
 
 # --------------------------------------------------------------------------- Formating
 # Here Come all of the Functions
@@ -82,6 +87,8 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "1 : Measure LCR Component\n"
                     "2 : Analyze / Calculate existing Measurement\n"
                     "3 : Settings\n"
+                    "4 : Connect to Oscilloscope\n"
+                    "98: About\n"
                     "99: Exit Program\n\n"
                     )
 
@@ -114,6 +121,16 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "4 : Debug Messages for Calculations (Current: " + str(P.Debug_Calc) + ")\n"
                     "5 : Number Format for Display (Current: " + str(P.Number_Display) + ")\n"
                     "99: Go back\n\n"
+                    )
+
+        case ABOUT_TEXT:  # About Text
+            # 20260301, MODIFICATION, V0.1.0, LZerres: New Text for About Section
+            print   (
+                    "DIE (Debug Instrument Engine) | Formaly known as MSO5000 LCR Meter\n"
+                    "Version: V"+ VERSION_SW + "\n\n"
+                    "This tool helps you to measure and analyze LCR components with the MSO5000 (Maybe more lator)\n\n"
+                    "Created by Lord_prei in 2025\n"
+                    "GitHub:https://github.com/Lord-prei/MSO5000-LCR-meter\n\n"
                     )
             
 # endregion Functions Layer 1
