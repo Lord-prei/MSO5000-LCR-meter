@@ -19,6 +19,7 @@ import  matplotlib.pyplot as plt
 import  numpy       as np
 import  Lib.Input   as I
 import  Lib.Process as P
+import  Lib.Settings as S
 
 # --------------------------------------------------------------------------- define Paths
 
@@ -39,14 +40,13 @@ Data_Path =     os.path.join(Base_Dir, "Data")
 
 # endregion Paths
 
-class S(Enum):
+class enum(Enum):
     # All of the text dialog variables
     START_TEXT = 1
     PICK_TEXT1 = 2
     PICK_TEXT2 = 3
     PICK_TEXT3 = 4
-    PICK_TEXT_SETTINGS = 5
-    ABOUT_TEXT = 6
+    ABOUT_TEXT = 5
 
 VERSION_SW = 0
 def whatVersion(VERSION): # 20260301, MODIFICATION, V0.1.0, LZerres: Function to get Version from main
@@ -77,13 +77,13 @@ def Clear_CLI():  # Clear screen + move cursor to top-left
 
 def TXT_Dialog(n):  # All of the text dialog stuff
     match n:
-        case S.START_TEXT:  # Starting Text
+        case enum.START_TEXT:  # Starting Text
             print   (
                     "Hello and Welcome to DIE (Debug Instrument Engine)\n"
                     "This tool helps you to measure and analyze LCR components with the MSO5000 (Maybe more lator)\n\n\n"
                     )
 
-        case S.PICK_TEXT1:  # Main Menu
+        case enum.PICK_TEXT1:  # Main Menu
             print   ("What do u wanna do? (Pick from List)\n\n")
             print   (
                     "1 : Measure LCR Component\n"
@@ -94,7 +94,7 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "99: Exit Program\n\n"
                     )
 
-        case S.PICK_TEXT2:  # Analyze / Calculate existing Measurement Menu
+        case enum.PICK_TEXT2:  # Analyze / Calculate existing Measurement Menu
             print   ("What do u wanna do? (Pick from List)\n\n")
             print   (
                     "1 : Calculate Data and export as Excel Files\n"
@@ -103,7 +103,7 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "99: Go back\n\n"
                     )
 
-        case S.PICK_TEXT3:  # Settings Menu
+        case enum.PICK_TEXT3:  # Settings Menu
             print   (
                     "Settings Menu\n\n"
                     "1 : Load Default Settings\n"
@@ -111,17 +111,6 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "3 : Show Current Settings\n"
                     "4 : Change Settings\n"
                     "5 : Save Current Settings as Custom Settings\n"
-                    "99: Go back\n\n"
-                    )
-
-        case S.PICK_TEXT_SETTINGS:  # Settings changing menu
-            print   (
-                    "What Settings do you wanna change?\n\n"
-                    "1 : Decimal places for rounding (Current: " + str(P.Rounded) + ")\n"
-                    "2 : Time Delay when going back (Current: " + str(P.Time_Delay) + "s)\n"
-                    "3 : Debug Messages (Current: " + str(P.Debug) + ")\n"
-                    "4 : Debug Messages for Calculations (Current: " + str(P.Debug_Calc) + ")\n"
-                    "5 : Number Format for Display (Current: " + str(P.Number_Display) + ")\n"
                     "99: Go back\n\n"
                     )
 
@@ -192,7 +181,7 @@ def getSystemInfo():
 # region Functions Layer 1
 
 def dprintDir():  # printing debug for paths
-    if P.Debug == "yes":
+    if S.Debug == "yes":
         linePrint()
         print("All of the important Paths:\n")
         print("Base Dir = \t\t", Base_Dir)
@@ -220,7 +209,7 @@ def dprintCalc(
     Rounded_H,
     Rounded_H_db,
 ):
-    if P.Debug == "yes":
+    if S.Debug == "yes":
         print(
             f"row:\t{Y:06d}\t| "
             f"col:\t{X:06d}\t| "
@@ -259,6 +248,61 @@ def dprintCalc(
 
 # endregion Debug
 # --------------------------------------------------------------------------- End Debug
+# ----------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------- Excel
+# Here Come all of the Functions
+# region Functions
+
+# -------------------------------------------------- Layer 1
+
+# Functions Layer 1
+# region Functions Layer 1
+
+def Export_Excel(fileFolderPath, fileName, df):
+    filePath = os.path.join(fileFolderPath, fileName)
+    df.to_excel(filePath, index=False)
+
+def Create_Excel_Clean(type, lenght, name):
+    df = pd.DataFrame()
+    X = 0
+
+    df.insert(X, f"Ue_[V]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 1, f"Ua_[V]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 2, f"Ie_[A]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 3, f"F_[Hz]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 4, f"φ_[°]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 5, f"|Z|_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 6, f"Z_[Ω]", pd.Series(np.zeros(lenght, dtype=np.complex128)))
+    df.insert(X + 7, f"R_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 8, f"X_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 9, f"H_[1]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 10, f"H_[db]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+
+    file_path = os.path.join(Data_Path, f"{name}.xlsx")  # Exporting calculated data to Excel File
+    df.to_excel(file_path, index=False)
+
+# endregion Functions Layer 1
+
+# -------------------------------------------------- Layer 2
+
+# Functions Layer 2
+# region Functions Layer 2
+
+# Code for Functions Layer 2
+
+# endregion Functions Layer 2
+
+# -------------------------------------------------- Layer 3
+
+# Functions Layer 3
+# region Functions Layer 3
+
+# Code for Functions Layer 3
+
+# endregion Functions Layer 3
+
+# endregion Functions
+# --------------------------------------------------------------------------- End Excel
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- 
 # Here Come all of the Functions
