@@ -17,10 +17,10 @@ from    enum        import Enum
 import  pandas      as pd
 import  matplotlib.pyplot as plt
 import  numpy       as np
-import  Lib.Input   as I
-import  Lib.Output  as O
-from    Lib.Output  import enum
+import  Lib.Debug   as D
 import  Lib.Settings as S
+from    Lib.Output  import enum
+
 
 # --------------------------------------------------------------------------- Variables
 
@@ -51,7 +51,10 @@ Data_Path =     os.path.join(Base_Dir, "Data")
 # region Init
 
 file_path =     os.path.join(Settings_Path, "Settings_Default.xlsx")
-dfSettings =    pd.read_excel(file_path, header=None, index_col=None)
+
+# Reading SI Prefixes from Excel File and preparing variables
+filepath = os.path.join(Settings_Path, "SI_Prefixes.xlsx")
+dfPrefix = pd.read_excel(filepath, header=None, index_col=None)
 
 # endregion Init
 
@@ -193,9 +196,7 @@ def eng(x):  # Normal to Engineering Notation Converter
 # 20260222, MODIFICATION, V0.0.2, LZerres: Added a converter for normal to si prefixes
 def si_prefix(x):  # Normal to SI Prefix Converter
 
-    # Reading SI Prefixes from Excel File and preparing variables
-    filepath = os.path.join(Settings_Path, "SI_Prefixes.xlsx")
-    dfPrefix = pd.read_excel(filepath, header=None, index_col=None)
+    global dfPrefix
     Xmax = dfPrefix.shape[1]  # Number of columns
     Ymax = dfPrefix.shape[0] - 1  # Number of rows
     X = 0

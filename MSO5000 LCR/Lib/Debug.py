@@ -1,4 +1,4 @@
-# Lib for all the Input stuff
+﻿# Lib for all the TEMP stuff
 
 import  sys
 import  os
@@ -14,9 +14,10 @@ from    enum        import Enum
 import  pandas      as pd
 import  matplotlib.pyplot as plt
 import  numpy       as np
-import  Lib.Debug   as D
+import  Lib.Input   as I
+import  Lib.Process as P
+import  Lib.Output  as O
 import  Lib.Settings as S
-from    Lib.Output  import enum
 
 # --------------------------------------------------------------------------- define Paths
 
@@ -37,78 +38,61 @@ Data_Path =     os.path.join(Base_Dir, "Data")
 
 # endregion Paths
 
-# --------------------------------------------------------------------------- Excel
-# Here Come all of the Functions
-# region Functions
-
-# -------------------------------------------------- Layer 1
-
-# Functions Layer 1
-# region Functions Layer 1
-
-# 20260301, MODIFICATION, V0.1.1, LZerres: Function to import Excel file, returns a DataFrame
-def Import_Excel(fileFolderPath, fileName):
-    filePath = os.path.join(fileFolderPath, fileName)
-    dfExcel = pd.read_excel(filePath)
-    return dfExcel
-
-# endregion Functions Layer 1
-
-# -------------------------------------------------- Layer 2
-
-# Functions Layer 2
-# region Functions Layer 2
-
-# Code for Functions Layer 2
-
-# endregion Functions Layer 2
-
-# -------------------------------------------------- Layer 3
-
-# Functions Layer 3
-# region Functions Layer 3
-
-# Code for Functions Layer 3
-
-# endregion Functions Layer 3
-
-# endregion Functions
-# --------------------------------------------------------------------------- End Excel
 # ----------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------- Calculations
+# --------------------------------------------------------------------------- Debug
 # Here Come all of the Functions
-# region Functions
-
+# region Debug
 # -------------------------------------------------- Layer 1
 
 # Functions Layer 1
 # region Functions Layer 1
 
-def Read_Voltage_Ue(dfCal, X, Y):
-    Voltage_Ue = dfCal.iloc[Y, X]  # reading Voltage Ue
+def printDir():  # printing debug for paths
+    if S.Debug == "yes":
+        O.linePrint()
+        print("All of the important Paths:\n")
+        print("Base Dir = \t\t", Base_Dir)
+        print("Lib Dir = \t\t", Lib_Dir)
+        print("Settings Path = \t", Settings_Path)
+        print("Data Path = \t\t", Data_Path)
+        print("\b")
+        print("End of Debug Paths")
+        O.linePrint()
+        O.waitForKeypress()
 
-    return Voltage_Ue
-
-def Read_Voltage_Ua(dfCal, X, Y):
-    Voltage_Ua = dfCal.iloc[Y, X + 1]  # reading Voltage UA
-
-    return Voltage_Ua
-
-def Read_Current(dfCal, X, Y):
-    Current = dfCal.iloc[Y, X + 2]  # reading Current
-
-    return Current
-
-def Read_Frequenzy(dfCal, X, Y):
-    Frequenzy = dfCal.iloc[Y, X + 3]  # reading Frequency
-
-    return Frequenzy
-
-def Read_PhaseOffset(dfCal, X, Y):
-    PhaseOffset = dfCal.iloc[Y, X + 4]  # reading Phase Offset
-
-    return PhaseOffset
-
+# 20260222, MODIFICATION, V0.0.2, LZerres: Debug messages for Calculations
+def printCalc(
+    X,
+    Y,
+    Rounded_Voltage_Ue,
+    Rounded_Voltage_Ua,
+    Rounded_Current,
+    Rounded_Frequeny,
+    Rounded_PhaseOffset,
+    Rounded_Impedance_abs,
+    Rounded_Resistance,
+    Rounded_Blind,
+    Rounded_Impedance,
+    Rounded_H,
+    Rounded_H_db,
+):
+    if S.Debug == "yes":
+        print(
+            f"row:\t{Y:06d}\t| "
+            f"col:\t{X:06d}\t| "
+            f"Ue:\t{P.select_number_format(Rounded_Voltage_Ue)}V\t| "
+            f"Ua:\t{P.select_number_format(Rounded_Voltage_Ua)}V\t| "
+            f"I:\t{P.select_number_format(Rounded_Current)}A\t| "
+            f"f:\t{P.select_number_format(Rounded_Frequeny)}Hz\t| "
+            f"φ:\t{P.select_number_format(Rounded_PhaseOffset)}°\t| "
+            f"|Z|:\t{P.select_number_format(Rounded_Impedance_abs)}Ω\t| "
+            f"R:\t{P.select_number_format(Rounded_Resistance)}Ω\t| "
+            f"X:\t{P.select_number_format(Rounded_Blind)}Ω\t| "
+            f"Z:\t{P.select_number_format(Rounded_Impedance)}Ω\t| "
+            f"H:\t{P.select_number_format(Rounded_H)}\t| "
+            f"H(dB):\t{P.select_number_format(Rounded_H_db)}dB"
+        )
+            
 # endregion Functions Layer 1
 
 # -------------------------------------------------- Layer 2
@@ -129,8 +113,8 @@ def Read_PhaseOffset(dfCal, X, Y):
 
 # endregion Functions Layer 3
 
-# endregion Functions
-# --------------------------------------------------------------------------- End Calculations
+# endregion Debug
+# --------------------------------------------------------------------------- End Debug
 # ----------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 # Here Come all of the Functions

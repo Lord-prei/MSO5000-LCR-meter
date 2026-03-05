@@ -154,9 +154,7 @@ def Settings_Change(dfData):
                 processedNewValue = userInputValidation(New_Value, "number")
 
                 if processedNewValue == "FALSE":
-                    O.Clear_CLI()
-                    print(f"Invalid Input you typed: (\x1b[31m{New_Value}\x1b[0m), try again idiot")
-                    O.waitForKeypress()
+                    O.Wrong_Input(New_Value)
                     again = 1
 
                 else:
@@ -169,9 +167,7 @@ def Settings_Change(dfData):
                     tempAgain = userInputValidation(again, "number")
 
                     if tempAgain == "FALSE":
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{again}\x1b[0m), try again idiot")
-                        O.waitForKeypress()
+                        O.Wrong_Input(again)
                         again = 1
                     else:
                         again = int(tempAgain) - 1
@@ -185,9 +181,7 @@ def Settings_Change(dfData):
                 processedNewValue = userInputValidation(New_Value, "float")
 
                 if processedNewValue == "FALSE":
-                    O.Clear_CLI()
-                    print(f"Invalid Input you typed: (\x1b[31m{New_Value}\x1b[0m), try again idiot")
-                    O.waitForKeypress()
+                    O.Wrong_Input(New_Value)
                     again = 1
 
                 else:
@@ -200,9 +194,7 @@ def Settings_Change(dfData):
                     tempAgain = userInputValidation(again, "number")
 
                     if tempAgain == "FALSE":
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{again}\x1b[0m), try again idiot")
-                        O.waitForKeypress()
+                        O.Wrong_Input(again)
                         again = 1
                     else:
                         again = int(tempAgain) - 1
@@ -216,9 +208,7 @@ def Settings_Change(dfData):
                 processedNewValue = userInputValidation(New_Value, "number")
 
                 if processedNewValue == "FALSE":
-                    O.Clear_CLI()
-                    print(f"Invalid Input you typed: (\x1b[31m{New_Value}\x1b[0m), try again idiot")
-                    O.waitForKeypress()
+                    O.Wrong_Input(New_Value)
                     again = 1
                     
                 else:
@@ -238,9 +228,7 @@ def Settings_Change(dfData):
                     tempAgain = userInputValidation(again, "number")
 
                     if tempAgain == "FALSE":
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{again}\x1b[0m), try again idiot")
-                        O.waitForKeypress()
+                        O.Wrong_Input(again)
                         again = 1
                     else:
                         again = int(tempAgain) - 1
@@ -255,9 +243,7 @@ def Settings_Change(dfData):
                 processedNewValue = userInputValidation(New_Value, "number")
 
                 if processedNewValue == "FALSE":
-                    O.Clear_CLI()
-                    print(f"Invalid Input you typed: (\x1b[31m{New_Value}\x1b[0m), try again idiot")
-                    O.waitForKeypress()
+                    O.Wrong_Input(New_Value)
                     again = 1
 
                 else:
@@ -276,9 +262,7 @@ def Settings_Change(dfData):
                     tempAgain = userInputValidation(again, "number")
 
                     if tempAgain == "FALSE":
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{again}\x1b[0m), try again idiot")
-                        O.waitForKeypress()
+                        O.Wrong_Input(again)
                         again = 1
                     else:
                         again = int(tempAgain) - 1
@@ -293,9 +277,7 @@ def Settings_Change(dfData):
                 processedNewValue = userInputValidation(New_Value, "number")
 
                 if processedNewValue == "FALSE":
-                    O.Clear_CLI()
-                    print(f"Invalid Input you typed: (\x1b[31m{New_Value}\x1b[0m), try again idiot")
-                    O.waitForKeypress()
+                    O.Wrong_Input(New_Value)
                     again = 1
 
                 else:
@@ -316,9 +298,7 @@ def Settings_Change(dfData):
                     tempAgain = userInputValidation(again, "number")
 
                     if tempAgain == "FALSE":
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{again}\x1b[0m), try again idiot")
-                        O.waitForKeypress()
+                        O.Wrong_Input(again)
                         again = 1
                     else:
                         again = int(tempAgain) - 1
@@ -330,10 +310,7 @@ def Settings_Change(dfData):
                 time.sleep(Time_Delay)
 
             case "FALSE": # 20260225, MODIFICATION, V0.0.3, LZerres: Added for input Validation
-                        # Invalid Input
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot") # 20260301, MODIFICATION, V0.1.0, LZerres: Copy paste mistake fixed
-                        O.waitForKeypress()
+                        O.Wrong_Input(User_Input)
                         again = 1
 
 # endregion Functions Layer 2

@@ -17,8 +17,7 @@ from    enum        import Enum
 import  pandas      as pd
 import  matplotlib.pyplot as plt
 import  numpy       as np
-import  Lib.Input   as I
-import  Lib.Process as P
+import  Lib.Debug   as D
 import  Lib.Settings as S
 
 # --------------------------------------------------------------------------- define Paths
@@ -64,16 +63,6 @@ columns, rows = shutil.get_terminal_size()
 
 # Functions Layer 1
 # region Functions Layer 1
-    
-def linePrint():
-    print("-" * columns)
-
-def waitForKeypress():  # Wait for a keypress
-    print("\nPress anything to continue")
-    msvcrt.getch()
-
-def Clear_CLI():  # Clear screen + move cursor to top-left
-    print("\033[2J\033[H", end="")
 
 def TXT_Dialog(n):  # All of the text dialog stuff
     match n:
@@ -114,7 +103,7 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "99: Go back\n\n"
                     )
 
-        case ABOUT_TEXT:  # About Text
+        case enum.ABOUT_TEXT:  # About Text
             # 20260301, MODIFICATION, V0.1.0, LZerres: New Text for About Section
             print   (
                     "DIE (Debug Instrument Engine) | Formaly known as MSO5000 LCR Meter\n"
@@ -123,7 +112,13 @@ def TXT_Dialog(n):  # All of the text dialog stuff
                     "Created by Lord_prei in 2025\n"
                     "GitHub: https://github.com/Lord-prei/MSO5000-LCR-meter\n\n"
                     )
-            getSystemInfo() # 20260301, MODIFICATION, V0.1.1, LZerres: Call to new Function to get System Information
+            Get_System_Info() # 20260301, MODIFICATION, V0.1.1, LZerres: Call to new Function to get System Information
+
+def Wrong_Input(wrongInput):  # Wrong Input Text
+    # 20260301, MODIFICATION, V0.1.1, LZerres: New Function to print Wrong Input the user typed
+    Clear_CLI()
+    print(f"Invalid Input you typed: (\x1b[31m{wrongInput}\x1b[0m), try again idiot")
+    waitForKeypress()
             
 # endregion Functions Layer 1
 
@@ -133,7 +128,7 @@ def TXT_Dialog(n):  # All of the text dialog stuff
 # region Functions Layer 2
 
 # 20260301, MODIFICATION, V0.1.1, LZerres: New Function to get System Information for About Section
-def getSystemInfo():
+def Get_System_Info():
     systemPlattform = sys.platform
     systemInfo = platform.platform()
     osBuildNumber = platform.version()
@@ -166,88 +161,19 @@ def getSystemInfo():
 # Functions Layer 3
 # region Functions Layer 3
 
-# Code for Functions Layer 3
+def linePrint():
+    print("-" * columns)
+
+def waitForKeypress():  # Wait for a keypress
+    print("\nPress anything to continue")
+    msvcrt.getch()
+
+def Clear_CLI():  # Clear screen + move cursor to top-left
+    print("\033[2J\033[H", end="")
 
 # endregion Functions Layer 3
 # endregion Formating
 # --------------------------------------------------------------------------- End Formating
-# ----------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------- Debug
-# Here Come all of the Functions
-# region Debug
-# -------------------------------------------------- Layer 1
-
-# Functions Layer 1
-# region Functions Layer 1
-
-def dprintDir():  # printing debug for paths
-    if S.Debug == "yes":
-        linePrint()
-        print("All of the important Paths:\n")
-        print("Base Dir = \t\t", Base_Dir)
-        print("Lib Dir = \t\t", Lib_Dir)
-        print("Settings Path = \t", Settings_Path)
-        print("Data Path = \t\t", Data_Path)
-        print("\b")
-        print("End of Debug Paths")
-        linePrint()
-        waitForKeypress()
-
-# 20260222, MODIFICATION, V0.0.2, LZerres: Debug messages for Calculations
-def dprintCalc(
-    X,
-    Y,
-    Rounded_Voltage_Ue,
-    Rounded_Voltage_Ua,
-    Rounded_Current,
-    Rounded_Frequeny,
-    Rounded_PhaseOffset,
-    Rounded_Impedance_abs,
-    Rounded_Resistance,
-    Rounded_Blind,
-    Rounded_Impedance,
-    Rounded_H,
-    Rounded_H_db,
-):
-    if S.Debug == "yes":
-        print(
-            f"row:\t{Y:06d}\t| "
-            f"col:\t{X:06d}\t| "
-            f"Ue:\t{P.select_number_format(Rounded_Voltage_Ue)}V\t| "
-            f"Ua:\t{P.select_number_format(Rounded_Voltage_Ua)}V\t| "
-            f"I:\t{P.select_number_format(Rounded_Current)}A\t| "
-            f"f:\t{P.select_number_format(Rounded_Frequeny)}Hz\t| "
-            f"φ:\t{P.select_number_format(Rounded_PhaseOffset)}°\t| "
-            f"|Z|:\t{P.select_number_format(Rounded_Impedance_abs)}Ω\t| "
-            f"R:\t{P.select_number_format(Rounded_Resistance)}Ω\t| "
-            f"X:\t{P.select_number_format(Rounded_Blind)}Ω\t| "
-            f"Z:\t{P.select_number_format(Rounded_Impedance)}Ω\t| "
-            f"H:\t{P.select_number_format(Rounded_H)}\t| "
-            f"H(dB):\t{P.select_number_format(Rounded_H_db)}dB"
-        )
-            
-# endregion Functions Layer 1
-
-# -------------------------------------------------- Layer 2
-
-# Functions Layer 2
-# region Functions Layer 2
-
-# Code for Functions Layer 2
-
-# endregion Functions Layer 2
-
-# -------------------------------------------------- Layer 3
-
-# Functions Layer 3
-# region Functions Layer 3
-
-# Code for Functions Layer 3
-
-# endregion Functions Layer 3
-
-# endregion Debug
-# --------------------------------------------------------------------------- End Debug
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- Excel
 # Here Come all of the Functions

@@ -52,12 +52,13 @@
 #
 # --------------------------------------------------------------------------- V0.1.1
 #
-#       VERSIONNAME
+#       Expanded select menu and complete overhaul to code structure
 #
 #       20260301, MODIFICATION, V0.1.1, LZerres:
 #           Added System info to the About Text
-#           CHANGE 2
-#           CHANGE 3
+#           Changed the entire code structures so it actually follows IPO principle
+#           Added multiple new functions for better structure and readability of the code
+#           Made 2 New Libs: Settings and Debug (to not break the IPO principle)
 #
 # --------------------------------------------------------------------------- 
 
@@ -80,6 +81,7 @@ import  Lib.Process as P
 import  Lib.Output  as O
 from    Lib.Output  import enum
 import  Lib.Settings as S
+import  Lib.Debug   as D
 
 VERSION_SW = "0.1.1"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
 O.whatVersion(VERSION_SW) # 20260301, MODIFICATION, V0.1.0, LZerres: Added this function so the Version Number can be used in other Libs
@@ -124,7 +126,7 @@ Data_Path =     os.path.join(Base_Dir, "Data")
 
 S.Settings("Custom", "Load", 0)  # Load Custom Settings
 O.Clear_CLI()
-O.dprintDir()                    # Printing Debug message
+D.printDir()                    # Printing Debug message
 O.Create_Excel_Clean(0, 0, "Test")
 
 # ---------------------------------------------------------------------------------------------------- Functions
@@ -213,7 +215,7 @@ def Calculate_All():
 
         # 20260222, MODIFICATION, V0.0.1, LZerres: Added Debug Messages for Calculations, so you can see what is calculated in each step
         if (S.Debug == "yes") and (S.Debug_Calc == "yes"):
-            O.dprintCalc(
+            D.printCalc(
                 X,
                 Y,
                 rounded_voltageUE,
@@ -348,10 +350,7 @@ while True:  # Main Loop
                         time.sleep(S.Time_Delay)
 
                     case "FALSE": # 20260225, MODIFICATION, V0.0.3, LZerres: Added for input Validation
-                        # Invalid Input
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot")
-                        O.waitForKeypress()
+                        O.Wrong_Input(User_Input)
 
         case "3":  # Settings
             O.Clear_CLI()
@@ -416,10 +415,7 @@ while True:  # Main Loop
                         time.sleep(S.Time_Delay)
 
                     case "FALSE": # 20260225, MODIFICATION, V0.0.3, LZerres: Added for input Validation
-                        # Invalid Input
-                        O.Clear_CLI()
-                        print(f"Invalid Input you typed: (\x1b[31m{User_Input}\x1b[0m), try again idiot")
-                        O.waitForKeypress()
+                        O.Wrong_Input(User_Input)
 
         case "4":  # Connect to Oscilloscope (WIP)
             # 20260301, MODIFICATION, V0.1.0, LZerres: Added this case for connection stuff
