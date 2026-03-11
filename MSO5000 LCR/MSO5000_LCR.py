@@ -1,7 +1,7 @@
 ﻿# ----------------------------------------------------------------------------------------------------
 #       Project: DIE (Debug Instrument Engine) | Formaly known as MSO5000 LCR Meter
 #       Purpose: To automate LCR analisys for my Oscilloscope
-#       Version: V0.1.2
+#       Version: V0.1.3
 # ----------------------------------------------------------------------------------------------------
 #       Version control
 # --------------------------------------------------------------------------- Copypaste
@@ -67,6 +67,15 @@
 #       20260311, MODIFICATION, V0.1.2, LZerres:
 #           Change from .xlsx to .csv and .txt for better performace / industry standards
 #
+# --------------------------------------------------------------------------- V0.1.3
+#
+#       VERSIONNAME
+#
+#       JJJJMMDD, MODIFICATION, V0.1.3, LZerres:
+#           CHANGE 1
+#           CHANGE 2
+#           CHANGE 3
+#
 # --------------------------------------------------------------------------- 
 
 import  sys
@@ -90,7 +99,7 @@ from    Lib.Output  import enum
 import  Lib.Settings as S
 import  Lib.Debug   as D
 
-VERSION_SW = "0.1.2"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+VERSION_SW = "0.1.3"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
 O.whatVersion(VERSION_SW) # 20260301, MODIFICATION, V0.1.0, LZerres: Added this function so the Version Number can be used in other Libs
 
 print(f"\x1b]0;DIE V{VERSION_SW}\x07") # 20260222, MODIFICATION, V0.0.2, LZerres: Added Version Number to be displayed in CLI title
