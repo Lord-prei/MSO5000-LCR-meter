@@ -57,46 +57,46 @@ def Settings(Type, What, dfData):  # Calling Settings from Excel File
     match Type:
         case "Default":
 
-            file_path = os.path.join(Settings_Path, "Settings_Default.xlsx")
-            dfSettings = pd.read_excel(file_path, header=None, index_col=None)
+            file_path = os.path.join(Settings_Path, "Settings_Default.CSV")
+            dfSettings = pd.read_csv(file_path, header=None, index_col=None)
 
             if What == "Load":  # Load Default Settings
 
                 Settings_Load(dfSettings)
 
-                file_path_current = os.path.join(Settings_Path, "Settings_Current.xlsx")
+                file_path_current = os.path.join(Settings_Path, "Settings_Current.CSV")
                 dfSettingsCurrent = dfSettings
-                dfSettingsCurrent.to_excel(file_path_current, index=False, header=None)
+                dfSettingsCurrent.to_csv(file_path_current, index=False, header=None)
 
         case "Custom":
 
-            file_path = os.path.join(Settings_Path, "Settings_Custom.xlsx")
-            dfSettings = pd.read_excel(file_path, header=None, index_col=None)
+            file_path = os.path.join(Settings_Path, "Settings_Custom.CSV")
+            dfSettings = pd.read_csv(file_path, header=None, index_col=None)
 
             if What == "Load":  # Load Custom Settings
 
                 Settings_Load(dfSettings)
 
-                file_path_current = os.path.join(Settings_Path, "Settings_Current.xlsx")
+                file_path_current = os.path.join(Settings_Path, "Settings_Current.CSV")
                 dfSettingsCurrent = dfSettings
-                dfSettingsCurrent.to_excel(file_path_current, index=False, header=None)
+                dfSettingsCurrent.to_csv(file_path_current, index=False, header=None)
 
             if What == "Save":  # Save Custom Settings
                 dfSettings = dfData
-                file_path_current = os.path.join(Settings_Path, "Settings_Current.xlsx")
-                dfSettings.to_excel(file_path, index=False, header=None)
-                dfSettings.to_excel(file_path_current, index=False, header=None)
+                file_path_current = os.path.join(Settings_Path, "Settings_Current.CSV")
+                dfSettings.to_csv(file_path, index=False, header=None)
+                dfSettings.to_csv(file_path_current, index=False, header=None)
 
         case "Current":
 
-            file_path = os.path.join(Settings_Path, "Settings_Current.xlsx")
-            dfSettings = pd.read_excel(file_path, header=None, index_col=None)
+            file_path = os.path.join(Settings_Path, "Settings_Current.CSV")
+            dfSettings = pd.read_csv(file_path, header=None, index_col=None)
 
             if What == "Show":  # Show Current Settings
                 print(dfSettings)
 
             if What == "Save":  # Save Current Settings
-                dfData.to_excel(file_path, index=False, header=None)
+                dfData.to_csv(file_path, index=False, header=None)
 
             if What == "Load":  # Load Current Settings
                 Settings_Load(dfSettings)
@@ -310,8 +310,8 @@ def Settings_Change(dfData):
                 time.sleep(Time_Delay)
 
             case "FALSE": # 20260225, MODIFICATION, V0.0.3, LZerres: Added for input Validation
-                        O.Wrong_Input(User_Input)
-                        again = 1
+                O.Wrong_Input(User_Input)
+                again = 1
 
 # endregion Functions Layer 2
 

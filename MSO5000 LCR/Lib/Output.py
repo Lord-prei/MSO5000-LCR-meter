@@ -175,7 +175,7 @@ def Clear_CLI():  # Clear screen + move cursor to top-left
 # endregion Formating
 # --------------------------------------------------------------------------- End Formating
 # ----------------------------------------------------------------------------------------------------
-# --------------------------------------------------------------------------- Excel
+# --------------------------------------------------------------------------- Excel / CSV
 # Here Come all of the Functions
 # region Functions
 
@@ -207,6 +207,77 @@ def Create_Excel_Clean(type, lenght, name):
     file_path = os.path.join(Data_Path, f"{name}.xlsx")  # Exporting calculated data to Excel File
     df.to_excel(file_path, index=False)
 
+def Export_CSV(fileFolderPath, fileName, df):
+    filePath = os.path.join(fileFolderPath, fileName)
+    df.to_csv(filePath, index=False, encoding="utf-8")
+
+def Create_CSV_Clean(type, lenght, name):
+    df = pd.DataFrame()
+    X = 0
+    df.insert(X, f"Ue_[V]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 1, f"Ua_[V]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 2, f"Ie_[A]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 3, f"F_[Hz]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 4, f"φ_[°]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 5, f"|Z|_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 6, f"Z_[Ω]", pd.Series(np.zeros(lenght, dtype=np.complex128)))
+    df.insert(X + 7, f"R_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 8, f"X_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 9, f"H_[1]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 10, f"H_[db]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+
+    file_path = os.path.join(Data_Path, f"{name}.CSV")  # Exporting calculated data to CSV File
+    df.to_csv(file_path, index=False)
+
+def Export_Pretty_txt(fileFolderPath, fileName, df):
+    filePath = os.path.join(fileFolderPath, fileName)
+
+    # convert all values to strings
+    df_str = df.astype(str)
+
+    # determine column widths
+    col_widths = []
+    for col in df_str.columns:
+        max_width = max(df_str[col].map(len).max(), len(col))
+        col_widths.append(max_width)
+
+    with open(filePath, "w", encoding="utf-8") as f:
+
+        # header
+        header = " | ".join(
+            col.ljust(width) for col, width in zip(df_str.columns, col_widths)
+        )
+        f.write(header + "\n")
+
+        # separator
+        sep_len = len(header)
+        f.write("-" * sep_len + "\n")
+
+        # rows
+        for _, row in df_str.iterrows():
+            line = " | ".join(
+                val.ljust(width) for val, width in zip(row, col_widths)
+            )
+            f.write(line + "\n")
+
+def Create_Clean():
+    df = pd.DataFrame()
+    X = 0
+    lenght = 0
+    df.insert(X, f"Ue_[V]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 1, f"Ua_[V]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 2, f"Ie_[A]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 3, f"F_[Hz]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 4, f"φ_[°]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 5, f"|Z|_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 6, f"Z_[Ω]", pd.Series(np.zeros(lenght, dtype=np.complex128)))
+    df.insert(X + 7, f"R_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 8, f"X_[Ω]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 9, f"H_[1]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+    df.insert(X + 10, f"H_[db]", pd.Series(np.zeros(lenght, dtype=np.float64)))
+
+    return df
+
 # endregion Functions Layer 1
 
 # -------------------------------------------------- Layer 2
@@ -228,7 +299,7 @@ def Create_Excel_Clean(type, lenght, name):
 # endregion Functions Layer 3
 
 # endregion Functions
-# --------------------------------------------------------------------------- End Excel
+# --------------------------------------------------------------------------- End Excel / CSV
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- 
 # Here Come all of the Functions

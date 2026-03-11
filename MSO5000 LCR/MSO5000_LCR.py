@@ -1,7 +1,7 @@
 ﻿# ----------------------------------------------------------------------------------------------------
 #       Project: DIE (Debug Instrument Engine) | Formaly known as MSO5000 LCR Meter
 #       Purpose: To automate LCR analisys for my Oscilloscope
-#       Version: V0.1.1
+#       Version: V0.1.2
 # ----------------------------------------------------------------------------------------------------
 #       Version control
 # --------------------------------------------------------------------------- Copypaste
@@ -60,6 +60,13 @@
 #           Added multiple new functions for better structure and readability of the code
 #           Made 2 New Libs: Settings and Debug (to not break the IPO principle)
 #
+# --------------------------------------------------------------------------- V0.1.2
+#
+#       File format change
+#
+#       20260311, MODIFICATION, V0.1.2, LZerres:
+#           Change from .xlsx to .csv and .txt for better performace / industry standards
+#
 # --------------------------------------------------------------------------- 
 
 import  sys
@@ -83,7 +90,7 @@ from    Lib.Output  import enum
 import  Lib.Settings as S
 import  Lib.Debug   as D
 
-VERSION_SW = "0.1.1"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+VERSION_SW = "0.1.2"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
 O.whatVersion(VERSION_SW) # 20260301, MODIFICATION, V0.1.0, LZerres: Added this function so the Version Number can be used in other Libs
 
 print(f"\x1b]0;DIE V{VERSION_SW}\x07") # 20260222, MODIFICATION, V0.0.2, LZerres: Added Version Number to be displayed in CLI title
@@ -127,7 +134,7 @@ Data_Path =     os.path.join(Base_Dir, "Data")
 S.Settings("Custom", "Load", 0)  # Load Custom Settings
 O.Clear_CLI()
 D.printDir()                    # Printing Debug message
-O.Create_Excel_Clean(0, 0, "Test")
+O.Create_CSV_Clean(0, 0, "Test")
 
 # ---------------------------------------------------------------------------------------------------- Functions
 # --------------------------------------------------------------------------- Calculations
@@ -140,8 +147,9 @@ O.Create_Excel_Clean(0, 0, "Test")
 # region Functions Layer 1
 
 def Calculate_All():
-    dfCalculations = I.Import_Excel(Data_Path, "Clean.xlsx")    # Data from Oscilloscope cleaned.
+    dfCalculations = I.Import_CSV(Data_Path, "Clean.CSV")    # Data from Oscilloscope cleaned.
     dfCalculationsRounded = dfCalculations.copy()
+    dfCalculationsPretty = dfCalculations.copy()
 
     Xmax = dfCalculations.shape[1]                              # Number of columns
     Ymax = dfCalculations.shape[0] - 1                          # Number of rows
@@ -200,6 +208,19 @@ def Calculate_All():
         rounded_H =             P.Round_Sig(H, S.Rounded)
         rounded_Hdb =           P.Round_Sig(Hdb, S.Rounded)
 
+        # 20260311, MODIFICATION, V0.1.2, LZerres: For the pretty txt file
+        dfCalculationsPretty.iloc[Y, X    ] = str(f"{P.select_number_format(rounded_voltageUE)}V")
+        dfCalculationsPretty.iloc[Y, X + 1] = str(f"{P.select_number_format(rounded_voltageUA)}V")
+        dfCalculationsPretty.iloc[Y, X + 2] = str(f"{P.select_number_format(rounded_currentI)}A")
+        dfCalculationsPretty.iloc[Y, X + 3] = str(f"{P.select_number_format(rounded_frequency)}Hz")
+        dfCalculationsPretty.iloc[Y, X + 4] = str(f"{P.select_number_format(rounded_phaseOffset)}°")
+        dfCalculationsPretty.iloc[Y, X + 5] = str(f"{P.select_number_format(rounded_impedanceABS)}Ω")
+        dfCalculationsPretty.iloc[Y, X + 6] = str(f"{P.select_number_format(rounded_impedanceComplex)}Ω")
+        dfCalculationsPretty.iloc[Y, X + 7] = str(f"{P.select_number_format(rounded_resistance)}Ω") 
+        dfCalculationsPretty.iloc[Y, X + 8] = str(f"{P.select_number_format(rounded_blind)}Ω")
+        dfCalculationsPretty.iloc[Y, X + 9] = str(f"{P.select_number_format(rounded_H)}")
+        dfCalculationsPretty.iloc[Y, X + 10] = str(f"{P.select_number_format(rounded_Hdb)}dB")
+
         # Saving all the Data into the dataframe
         dfCalculations, dfCalculationsRounded = P.Save_Voltage_Ue           (dfCalculations, dfCalculationsRounded, X, Y, voltageUE, rounded_voltageUE)
         dfCalculations, dfCalculationsRounded = P.Save_Voltage_Ua           (dfCalculations, dfCalculationsRounded, X, Y, voltageUA, rounded_voltageUA)
@@ -233,8 +254,9 @@ def Calculate_All():
 
         Y += 1
 
-    O.Export_Excel(Data_Path, "Clean_Calc.xlsx", dfCalculations)
-    O.Export_Excel(Data_Path, "Clean_Calc_Rounded.xlsx", dfCalculationsRounded)
+    O.Export_CSV(Data_Path, "Clean_Calc.CSV", dfCalculations)
+    O.Export_CSV(Data_Path, "Clean_Calc_Rounded.CSV", dfCalculationsRounded)
+    O.Export_Pretty_txt(Data_Path, "Clean_Calc.txt", dfCalculationsPretty)
 
 # endregion Functions Layer 1
 
@@ -391,8 +413,8 @@ while True:  # Main Loop
                         O.waitForKeypress()
 
                     case "4":  # Change Settings
-                        file_path = os.path.join(Settings_Path, "Settings_Current.xlsx")
-                        dfData = pd.read_excel(file_path, header=None, index_col=None)
+                        file_path = os.path.join(Settings_Path, "Settings_Current.CSV")
+                        dfData = pd.read_csv(file_path, header=None, index_col=None)
 
                         S.Settings_Change(dfData)
                         S.Settings("Current", "Save", dfData)
@@ -400,8 +422,8 @@ while True:  # Main Loop
                     case "5":  # Save Current Settings as Custom Settings
                         O.Clear_CLI()
                         print("Save Current Settings as Custom Settings")
-                        file_path = os.path.join(Settings_Path, "Settings_Current.xlsx")
-                        dfData = pd.read_excel(file_path, header=None, index_col=None)
+                        file_path = os.path.join(Settings_Path, "Settings_Current.CSV")
+                        dfData = pd.read_csv(file_path, header=None, index_col=None)
 
                         S.Settings("Custom", "Save", dfData)
 

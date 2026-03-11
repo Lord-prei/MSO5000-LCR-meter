@@ -37,7 +37,7 @@ Data_Path =     os.path.join(Base_Dir, "Data")
 
 # endregion Paths
 
-# --------------------------------------------------------------------------- Excel
+# --------------------------------------------------------------------------- Excel / CSV
 # Here Come all of the Functions
 # region Functions
 
@@ -51,6 +51,12 @@ def Import_Excel(fileFolderPath, fileName):
     filePath = os.path.join(fileFolderPath, fileName)
     dfExcel = pd.read_excel(filePath)
     return dfExcel
+
+# 20260311, MODIFICATION, V0.1.2, LZerres: Added for the file formate switch
+def Import_CSV(fileFolderPath, fileName):
+    filePath = os.path.join(fileFolderPath, fileName)
+    dfCSV = pd.read_csv(filePath)
+    return dfCSV
 
 # endregion Functions Layer 1
 
@@ -73,7 +79,7 @@ def Import_Excel(fileFolderPath, fileName):
 # endregion Functions Layer 3
 
 # endregion Functions
-# --------------------------------------------------------------------------- End Excel
+# --------------------------------------------------------------------------- End Excel / CSV
 # ----------------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------- Calculations
 # Here Come all of the Functions

@@ -50,11 +50,11 @@ Data_Path =     os.path.join(Base_Dir, "Data")
 # Init
 # region Init
 
-file_path =     os.path.join(Settings_Path, "Settings_Default.xlsx")
+file_path =     os.path.join(Settings_Path, "Settings_Default.CSV")
 
 # Reading SI Prefixes from Excel File and preparing variables
-filepath = os.path.join(Settings_Path, "SI_Prefixes.xlsx")
-dfPrefix = pd.read_excel(filepath, header=None, index_col=None)
+filepath = os.path.join(Settings_Path, "SI_Prefixes.CSV")
+dfPrefix = pd.read_csv(filepath, header=None, index_col=None)
 
 # endregion Init
 
@@ -200,7 +200,7 @@ def si_prefix(x):  # Normal to SI Prefix Converter
     Xmax = dfPrefix.shape[1]  # Number of columns
     Ymax = dfPrefix.shape[0] - 1  # Number of rows
     X = 0
-    Y = 0
+    Y = 1
 
     precision = S.Rounded
 
@@ -214,7 +214,8 @@ def si_prefix(x):  # Normal to SI Prefix Converter
 
     # Find the SI prefix for the exponent from the Excel file
     while Y <= Ymax:
-        if dfPrefix.iloc[Y, 2] == exp:
+        factor = int(dfPrefix.iloc[Y, 2])
+        if factor == exp:
             prefix = dfPrefix.iloc[Y, 1]
             if prefix == "none":
                 prefix = ""
