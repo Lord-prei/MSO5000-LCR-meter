@@ -159,6 +159,7 @@ def Calculate_All():
     dfCalculations = I.Import_CSV(Data_Path, "Clean.CSV")    # Data from Oscilloscope cleaned.
     dfCalculationsRounded = dfCalculations.copy()
     dfCalculationsPretty = dfCalculations.copy()
+    dfCalculationsPretty.astype(str) # 20260312, MODIFICATION, V0.1.3, LZerres: This is for the pretty txt file, so all values are saved as strings with the unit at the end
 
     Xmax = dfCalculations.shape[1]                              # Number of columns
     Ymax = dfCalculations.shape[0] - 1                          # Number of rows
@@ -337,6 +338,12 @@ while True:  # Main Loop
         case "1":  # Measure LCR Component (WIP)
             O.Clear_CLI()
             print("Measure LCR Component")
+
+            Data_Path = os.path.join(Base_Dir, "Data")
+            dfData = I.Import_CSV(Data_Path, "Clean_Calc.CSV")
+
+            dfData.plot(3, 10)
+            plt.show()
 
             repeat1 = 1
 
