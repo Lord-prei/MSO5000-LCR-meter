@@ -140,13 +140,18 @@ def Save_Impedanz_Complex(dfCal, dfCalRounded, X, Y, Impedance, Rounded_Impedanc
     dfCalRounded.iloc[Y, X + 6] = Rounded_Impedance
     return dfCal, dfCalRounded
 
+def Save_Phase_Offset_H(dfCal, dfCalRounded, X, Y, Phase_Offset_H, Rounded_Phase_Offset_H):
+    dfCal.iloc[Y, X + 9] = Phase_Offset_H
+    dfCalRounded.iloc[Y, X + 8] = Rounded_Phase_Offset_H
+    return dfCal, dfCalRounded
+
 def Save_Transferfunction_1(dfCal, dfCalRounded, X, Y, H, Rounded_H):
-    dfCal.iloc[Y, X + 9] = H
+    dfCal.iloc[Y, X + 10] = H
     dfCalRounded.iloc[Y, X + 9] = Rounded_H
     return dfCal, dfCalRounded
 
 def Save_Transferfunction_db(dfCal, dfCalRounded, X, Y, H_db, Rounded_H_db):
-    dfCal.iloc[Y, X + 10] = H_db
+    dfCal.iloc[Y, X + 11] = H_db
     dfCalRounded.iloc[Y, X + 10] = Rounded_H_db
     return dfCal, dfCalRounded
 

@@ -115,6 +115,11 @@ def Read_PhaseOffset(dfCal, X, Y):
 
     return PhaseOffset
 
+def Read_Phase_Offset_H(dfCal, X, Y):
+    Phase_Offset_H = dfCal.iloc[Y, X + 9]  # reading Phase Offset H
+
+    return Phase_Offset_H
+
 # endregion Functions Layer 1
 
 # -------------------------------------------------- Layer 2

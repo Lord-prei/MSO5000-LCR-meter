@@ -196,6 +196,7 @@ def Calculate_All():
         currentI =          I.Read_Current(dfCalculations, X, Y)
         frequency =         I.Read_Frequenzy(dfCalculations, X, Y)
         phaseOffset =       I.Read_PhaseOffset(dfCalculations, X, Y)
+        phaseOffsetH =      I.Read_Phase_Offset_H(dfCalculations, X, Y)
 
         # Calculations
         impedanceABS =      P.Calc_Impedance(voltageUE, currentI)
@@ -215,6 +216,7 @@ def Calculate_All():
         rounded_resistance =    P.Round_Sig(resistance, S.Rounded)
         rounded_blind =         P.Round_Sig(blind, S.Rounded)
         rounded_impedanceComplex = rounded_resistance + 1j * rounded_blind
+        rounded_phaseOffsetH =  P.Round_Sig(phaseOffsetH, S.Rounded)
         rounded_H =             P.Round_Sig(H, S.Rounded)
         rounded_Hdb =           P.Round_Sig(Hdb, S.Rounded)
 
@@ -228,8 +230,9 @@ def Calculate_All():
         dfCalculationsPretty.iloc[Y, X + 6] = str(f"{P.select_number_format(rounded_impedanceComplex)}Ω")
         dfCalculationsPretty.iloc[Y, X + 7] = str(f"{P.select_number_format(rounded_resistance)}Ω") 
         dfCalculationsPretty.iloc[Y, X + 8] = str(f"{P.select_number_format(rounded_blind)}Ω")
-        dfCalculationsPretty.iloc[Y, X + 9] = str(f"{P.select_number_format(rounded_H)}")
-        dfCalculationsPretty.iloc[Y, X + 10] = str(f"{P.select_number_format(rounded_Hdb)}dB")
+        dfCalculationsPretty.iloc[Y, X + 9] = str(f"{P.select_number_format(rounded_phaseOffsetH)}°")
+        dfCalculationsPretty.iloc[Y, X + 10] = str(f"{P.select_number_format(rounded_H)}")
+        dfCalculationsPretty.iloc[Y, X + 11] = str(f"{P.select_number_format(rounded_Hdb)}dB")
 
         # Saving all the Data into the dataframe
         dfCalculations, dfCalculationsRounded = P.Save_Voltage_Ue           (dfCalculations, dfCalculationsRounded, X, Y, voltageUE, rounded_voltageUE)
@@ -241,6 +244,7 @@ def Calculate_All():
         dfCalculations, dfCalculationsRounded = P.Save_Impedanz_Complex     (dfCalculations, dfCalculationsRounded, X, Y, impedanceComplex, rounded_impedanceComplex)
         dfCalculations, dfCalculationsRounded = P.Save_Resistance           (dfCalculations, dfCalculationsRounded, X, Y, resistance, rounded_resistance)
         dfCalculations, dfCalculationsRounded = P.Save_Blind                (dfCalculations, dfCalculationsRounded, X, Y, blind, rounded_blind)
+        dfCalculations, dfCalculationsRounded = P.Save_Phase_Offset_H       (dfCalculations, dfCalculationsRounded, X, Y, phaseOffsetH, rounded_phaseOffsetH)
         dfCalculations, dfCalculationsRounded = P.Save_Transferfunction_1   (dfCalculations, dfCalculationsRounded, X, Y, H, rounded_H)
         dfCalculations, dfCalculationsRounded = P.Save_Transferfunction_db  (dfCalculations, dfCalculationsRounded, X, Y, Hdb, rounded_Hdb)
 
