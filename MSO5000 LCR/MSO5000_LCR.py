@@ -346,7 +346,12 @@ while True:  # Main Loop
             Data_Path = os.path.join(Base_Dir, "Data")
             dfData = I.Import_CSV(Data_Path, "Clean_Calc.CSV")
 
-            dfData.plot(3, 10)
+            ax = dfData.plot(3, 9, color='g', label='Phase', logx=True)
+
+            dfData.plot(3, 11, color='b', label='Magnetude', logx=True)
+
+            ax.set_xlabel('X (log scale)')
+
             plt.show()
 
             repeat1 = 1
