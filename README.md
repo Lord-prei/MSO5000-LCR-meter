@@ -17,14 +17,14 @@ The Roadmap might be updated while working on this.
 	V0.2
 
 [x]	Impedance calculations fully working 
-[ ]	Settings for graphing
-[x]	Switch from xlsx to csv
-[ ]	Basic graphing
+[ ]	Settings for graphing 
+[x]	Switch from xlsx to csv 
+[ ]	Basic graphing 
 
 ----------------------------------------------------------------------------
 	V0.3
 
-[ ]	Advanced graphing
+[ ]	Advanced graphing 
 
 ----------------------------------------------------------------------------
 	V0.4
