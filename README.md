@@ -16,20 +16,17 @@ The Roadmap might be updated while working on this.
 ----------------------------------------------------------------------------
 	V0.2
 
-[ ]	Impedance calculations fully working  
-[ ]	Comunication  
+[x]	Impedance calculations fully working 
+[ ]	Settings for graphing
+[x]	Switch from xlsx to csv
+[ ]	Basic graphing
 
 ----------------------------------------------------------------------------
 	V0.3
-	
-[ ]	Basic linear Sweep
+
+[ ]	Advanced graphing
 
 ----------------------------------------------------------------------------
 	V0.4
 
-[ ]	Log Sweep
-
-----------------------------------------------------------------------------
-	V0.5
-
-[ ]	Graphing
+[ ]	Comunication
