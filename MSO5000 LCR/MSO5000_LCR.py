@@ -71,7 +71,7 @@
 #
 #       VERSIONNAME
 #
-#       JJJJMMDD, MODIFICATION, V0.1.3, LZerres:
+#       20260318, MODIFICATION, V0.1.3, LZerres:
 #           CHANGE 1
 #           CHANGE 2
 #           CHANGE 3
@@ -83,6 +83,7 @@ import  os
 import  time
 import  subprocess
 import  math
+from matplotlib.lines import lineStyles
 import  pyvisa
 import  msvcrt
 from    calendar    import c
@@ -96,6 +97,7 @@ import  Lib.Input   as I
 import  Lib.Process as P
 import  Lib.Output  as O
 from    Lib.Output  import enum
+from    Lib.Process import GC
 import  Lib.Settings as S
 import  Lib.Debug   as D
 
@@ -114,15 +116,7 @@ repeat3 = 0     # Variable for repeating loops 3
 
 
 class constants(Enum):
-    # For Graphing
-    VOLTAGE =       0  # Voltage for Graphing
-    CURRENT =       1  # Current for Graphing
-    FREQUENCY =     2  # Frequency for Graphing
-    PHASE_OFFSET =  3  # Phase Offset for Graphing
-    IMPEDANCE_ABS = 4  # Impedance for Graphing
-    IMPEDANCE =     5  # Complex Impedance for Graphing
-    RESISTANCE =    6  # Resistance for Graphing
-    BLIND =         7  # Blindwiderstand for Graphing
+    temp = 0
 
     # Random ah
 
@@ -278,6 +272,125 @@ def Calculate_All():
 
 # Functions Layer 2
 # region Functions Layer 2
+def TEMP_graphAll(): # 20260318, MODIFICATION, V0.1.3, LZerres: Temporary to test graphing
+    Data_Path = os.path.join(Base_Dir, "Data")
+    dfData = I.Import_CSV(Data_Path, "Clean_Calc.CSV")
+
+    fig, ax = plt.subplots()             # Create a figure containing a single Axes.
+    X = GC.FREQUENCY
+    Y = GC.RESISTANCE
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax.grid()
+    ax.set_xscale("log")
+    ax.set_xlabel(XAxisName)
+    ax.set_ylabel(YAxisName)    
+    ax.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y]
+    plt.plot(Xval, Yval, color="Black")
+                        
+
+    fig, ax = plt.subplots()             # Create a figure containing a single Axes.
+    X = GC.FREQUENCY
+    Y = GC.BLIND
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax.grid()
+    ax.set_xscale("log")
+    ax.set_xlabel(XAxisName)
+    ax.set_ylabel(YAxisName)    
+    ax.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y]
+    plt.plot(Xval, Yval, color="green")
+                        
+
+    fig, ax = plt.subplots()             # Create a figure containing a single Axes.
+    X = GC.FREQUENCY
+    Y = GC.IMPEDANCE_ABS
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax.grid()
+    ax.set_xscale("log")
+    ax.set_xlabel(XAxisName)
+    ax.set_ylabel(YAxisName)    
+    ax.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y]
+    plt.plot(Xval, Yval, color="blue")
+                        
+
+    fig, ax = plt.subplots()             # Create a figure containing a single Axes.
+    X = GC.FREQUENCY
+    Y = GC.IMPEDANCE_ABS
+    Y2= GC.PHASE_OFFSET_TOT
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax.grid(color="blue")
+    ax.set_xscale("log")
+    ax.set_xlabel(XAxisName)
+    ax.set_ylabel(YAxisName)    
+    ax.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y]
+    ax.plot(Xval, Yval, color="blue")
+    ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax2.grid()
+    ax2.set_xscale("log")
+    ax2.set_xlabel(XAxisName)
+    ax2.set_ylabel(YAxisName)    
+    ax2.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y2]
+    ax2.plot(Xval, Yval, color="black", linestyle="--")
+
+
+    fig, ax = plt.subplots()             # Create a figure containing a single Axes.
+    X = GC.FREQUENCY
+    Y = GC.TRANSFER_FUNCTION
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax.grid()
+    ax.set_xscale("log")
+    ax.set_xlabel(XAxisName)
+    ax.set_ylabel(YAxisName)    
+    ax.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y]
+    plt.plot(Xval, Yval, color="orange")
+
+
+    fig, ax = plt.subplots()             # Create a figure containing a single Axes.
+    X = GC.FREQUENCY
+    Y = GC.TRANSFER_FUNCTION_LOG
+    Y2= GC.PHASE_OFFSET_H
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax.grid(color="orange")
+    ax.set_xscale("log")
+    ax.set_xlabel(XAxisName)
+    ax.set_ylabel(YAxisName)    
+    ax.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y]
+    ax.plot(Xval, Yval, color="orange")
+    ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    XAxisName, YAxisName = P.selectGraphSettings(X, Y)
+    fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
+    ax2.grid()
+    ax2.set_xscale("log")
+    ax2.set_xlabel(XAxisName)
+    ax2.set_ylabel(YAxisName)    
+    ax2.set_title(f"{YAxisName} over {XAxisName}")
+    Xval = dfData.iloc[:, X]
+    Yval = dfData.iloc[:, Y2]
+    ax2.plot(Xval, Yval, color="black", linestyle="--")
+
+    plt.show()
+
 
 # Code for Functions Layer 2
 
@@ -343,17 +456,6 @@ while True:  # Main Loop
             O.Clear_CLI()
             print("Measure LCR Component")
 
-            Data_Path = os.path.join(Base_Dir, "Data")
-            dfData = I.Import_CSV(Data_Path, "Clean_Calc.CSV")
-
-            ax = dfData.plot(3, 9, color='g', label='Phase', logx=True)
-
-            dfData.plot(3, 11, color='b', label='Magnetude', logx=True)
-
-            ax.set_xlabel('X (log scale)')
-
-            plt.show()
-
             repeat1 = 1
 
             # while repeat1 == 1:
@@ -385,6 +487,8 @@ while True:  # Main Loop
                     case "2":  # Plot Data (WIP)
                         O.Clear_CLI()
                         print("Plot Data")
+
+                        TEMP_graphAll()
 
                     case "3":  # Both Calculate and Plot Data (WIP)
                         O.Clear_CLI()

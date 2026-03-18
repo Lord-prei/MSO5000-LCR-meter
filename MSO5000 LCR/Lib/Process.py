@@ -1,6 +1,7 @@
 ﻿# Lib for all the Process stuff
 
 from    curses.ascii import isdigit
+import re
 import  sys
 import  os
 import  time
@@ -14,6 +15,7 @@ from    calendar    import c
 from    re          import DEBUG
 from    turtle      import clear
 from    enum        import Enum
+from    enum        import IntEnum
 import  pandas      as pd
 import  matplotlib.pyplot as plt
 import  numpy       as np
@@ -24,7 +26,20 @@ from    Lib.Output  import enum
 
 # --------------------------------------------------------------------------- Variables
 
-
+class GC(IntEnum): #Graphing Constants
+    # For Graphing
+    VOLTAGE_UE =            0   # Voltage for Graphing
+    VOLTAGE_UA =            1   # Voltage for Graphing
+    CURRENT_IE =            2   # Current for Graphing
+    FREQUENCY =             3   # Frequency for Graphing
+    PHASE_OFFSET_TOT =      4   # Phase Offset for Graphing
+    IMPEDANCE_ABS =         5   # Impedance for Graphing
+    IMPEDANCE =             6   # Complex Impedance for Graphing
+    RESISTANCE =            7   # Resistance for Graphing
+    BLIND =                 8   # Blindwiderstand for Graphing
+    PHASE_OFFSET_H =        9   # Phase Offset H for Graphing
+    TRANSFER_FUNCTION =     10  # Transfer Function for Graphing
+    TRANSFER_FUNCTION_LOG = 11  # Transfer Function in dB for Graphing
 
 # --------------------------------------------------------------------------- define Paths
 
@@ -302,6 +317,120 @@ def checkUserInputFloat(input):
 
 # endregion Process
 # --------------------------------------------------------------------------- End Process
+# ----------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------- Graphing
+# Here Come all of the Functions
+# region Functions
+
+# -------------------------------------------------- Layer 1
+
+# Functions Layer 1
+# region Functions Layer 1
+
+# 20260318, MODIFICATION, V0.1.3, LZerres: Added to select the axis name for the graph
+def selectGraphSettings(X, Y):
+
+    #selecting the X axis
+    match X:
+        case GC.VOLTAGE_UE:
+            axisNameX = "Voltage Ue in [V]"
+
+        case GC.VOLTAGE_UA:
+            axisNameX = "Voltage Ua in [V]"
+
+        case GC.CURRENT_IE:
+            axisNameX = "Current Ie in [A]"
+
+        case GC.FREQUENCY:
+            axisNameX = "Frequency in [Hz]"
+
+        case GC.PHASE_OFFSET_TOT:
+            axisNameX = "Phase Offset Total in [°]"
+
+        case GC.IMPEDANCE_ABS:
+            axisNameX = "Impedance Absolute in [Ω]"
+
+        case GC.IMPEDANCE:
+            axisNameX = "Impedance Complex in [Ω]"
+
+        case GC.RESISTANCE:
+            axisNameX = "Resistance in [Ω]"
+
+        case GC.BLIND:
+            axisNameX = "Blindwiderstand in [Ω]"
+
+        case GC.PHASE_OFFSET_H:
+            axisNameX = "Phase Offset H in [°]"
+
+        case GC.TRANSFER_FUNCTION:
+            axisNameX = "Transfer Function H"
+
+        case GC.TRANSFER_FUNCTION_LOG:
+            axisNameX = "Transfer Function H in dB"
+
+    #selecting the Y axis
+    match Y:
+        case GC.VOLTAGE_UE:
+            axisNameY = "Voltage Ue in [V]"
+
+        case GC.VOLTAGE_UA:
+            axisNameY = "Voltage Ua in [V]"
+
+        case GC.CURRENT_IE:
+            axisNameY = "Current Ie in [A]"
+
+        case GC.FREQUENCY:
+            axisNameY = "Frequency in [Hz]"
+
+        case GC.PHASE_OFFSET_TOT:
+            axisNameY = "Phase Offset Total in [°]"
+
+        case GC.IMPEDANCE_ABS:
+            axisNameY = "Impedance Absolute in [Ω]"
+
+        case GC.IMPEDANCE:
+            axisNameY = "Impedance Complex in [Ω]"
+
+        case GC.RESISTANCE:
+            axisNameY = "Resistance in [Ω]"
+
+        case GC.BLIND:
+            axisNameY = "Blindwiderstand in [Ω]"
+
+        case GC.PHASE_OFFSET_H:
+            axisNameY = "Phase Offset H in [°]"
+
+        case GC.TRANSFER_FUNCTION:
+            axisNameY = "Transfer Function H"
+
+        case GC.TRANSFER_FUNCTION_LOG:
+            axisNameY = "Transfer Function H in dB"
+
+    return axisNameX, axisNameY
+
+
+# endregion Functions Layer 1
+
+# -------------------------------------------------- Layer 2
+
+# Functions Layer 2
+# region Functions Layer 2
+
+# Code for Functions Layer 2
+
+# endregion Functions Layer 2
+
+# -------------------------------------------------- Layer 3
+
+# Functions Layer 3
+# region Functions Layer 3
+
+# Code for Functions Layer 3
+
+# endregion Functions Layer 3
+
+# endregion Functions
+# --------------------------------------------------------------------------- End Graphing
 # ----------------------------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 # Here Come all of the Functions
