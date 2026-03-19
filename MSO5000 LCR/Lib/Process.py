@@ -40,6 +40,7 @@ class GC(IntEnum): #Graphing Constants
     PHASE_OFFSET_H =        9   # Phase Offset H for Graphing
     TRANSFER_FUNCTION =     10  # Transfer Function for Graphing
     TRANSFER_FUNCTION_LOG = 11  # Transfer Function in dB for Graphing
+    PHASE_OFFSET_Z        = 12  # Phase Offset Z for Graphing
 
 # --------------------------------------------------------------------------- define Paths
 
@@ -109,6 +110,11 @@ def Calc_Transferfunction_db(Voltage_Ua, Voltage_Ue):
     H_db = 20 * math.log10(abs(H))
     return H_db
 
+# 20260319, MODIFICATION, V0.2.1, LZerres: New for calculating the phase offset of the impedance
+def Calc_Phase_Offset_Z(PhaseOffset):
+    PhaseOffsetZ = PhaseOffset * - 1
+    return PhaseOffsetZ
+
 # Functions for Saving Values to Dataframe
 def Save_Voltage_Ue(dfCal, dfCalRounded, X, Y, Voltage_Ue, Rounded_Voltage_Ue):
     dfCal.iloc[Y, X] = Voltage_Ue  # Storing Voltage Ue in V
@@ -157,17 +163,23 @@ def Save_Impedanz_Complex(dfCal, dfCalRounded, X, Y, Impedance, Rounded_Impedanc
 
 def Save_Phase_Offset_H(dfCal, dfCalRounded, X, Y, Phase_Offset_H, Rounded_Phase_Offset_H):
     dfCal.iloc[Y, X + 9] = Phase_Offset_H
-    dfCalRounded.iloc[Y, X + 8] = Rounded_Phase_Offset_H
+    dfCalRounded.iloc[Y, X + 9] = Rounded_Phase_Offset_H
     return dfCal, dfCalRounded
 
 def Save_Transferfunction_1(dfCal, dfCalRounded, X, Y, H, Rounded_H):
     dfCal.iloc[Y, X + 10] = H
-    dfCalRounded.iloc[Y, X + 9] = Rounded_H
+    dfCalRounded.iloc[Y, X + 10] = Rounded_H
     return dfCal, dfCalRounded
 
 def Save_Transferfunction_db(dfCal, dfCalRounded, X, Y, H_db, Rounded_H_db):
     dfCal.iloc[Y, X + 11] = H_db
-    dfCalRounded.iloc[Y, X + 10] = Rounded_H_db
+    dfCalRounded.iloc[Y, X + 11] = Rounded_H_db
+    return dfCal, dfCalRounded
+
+# 20260319, MODIFICATION, V0.2.1, LZerres: New for saving the phase offset of the impedance
+def Save_Phase_Offset_Z(dfCal, dfCalRounded, X, Y, Phase_Offset_Z, Rounded_Phase_Offset_Z):
+    dfCal.iloc[Y, X + 12] = Phase_Offset_Z
+    dfCalRounded.iloc[Y, X + 12] = Rounded_Phase_Offset_Z
     return dfCal, dfCalRounded
 
 # endregion Functions Layer 1
@@ -368,6 +380,9 @@ def selectGraphSettings(X, Y):
         case GC.TRANSFER_FUNCTION_LOG:
             axisNameX = "Transfer Function H in dB"
 
+        case GC.PHASE_OFFSET_Z:
+            axisNameX = "Phase Offset Z in [°]"
+
     #selecting the Y axis
     match Y:
         case GC.VOLTAGE_UE:
@@ -405,6 +420,9 @@ def selectGraphSettings(X, Y):
 
         case GC.TRANSFER_FUNCTION_LOG:
             axisNameY = "Transfer Function H in dB"
+
+        case GC.PHASE_OFFSET_Z:
+            axisNameY = "Phase Offset Z in [°]"
 
     return axisNameX, axisNameY
 

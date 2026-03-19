@@ -78,7 +78,7 @@
 #
 #       VERSIONNAME
 #
-#       JJJJMMDD, MODIFICATION, V0.2.1, LZerres:
+#       20260319, MODIFICATION, V0.2.1, LZerres:
 #           CHANGE 1
 #           CHANGE 2
 #           CHANGE 3
@@ -200,9 +200,10 @@ def Calculate_All():
         phaseOffsetH =      I.Read_Phase_Offset_H(dfCalculations, X, Y)
 
         # Calculations
+        phaseOffsetZ =      P.Calc_Phase_Offset_Z(phaseOffset)
         impedanceABS =      P.Calc_Impedance(voltageUE, currentI)
-        resistance =        P.Calc_Resistance(phaseOffset, impedanceABS)
-        blind =             P.Calc_Blind(phaseOffset, impedanceABS)
+        resistance =        P.Calc_Resistance(phaseOffsetZ, impedanceABS)
+        blind =             P.Calc_Blind(phaseOffsetZ, impedanceABS)
         impedanceComplex =  P.Calc_Impedanz_Complex(resistance, blind)
         H =                 P.Calc_Transferfunction_1(voltageUA, voltageUE)
         Hdb =               P.Calc_Transferfunction_db(voltageUA, voltageUE)
@@ -220,6 +221,7 @@ def Calculate_All():
         rounded_phaseOffsetH =  P.Round_Sig(phaseOffsetH, S.Rounded)
         rounded_H =             P.Round_Sig(H, S.Rounded)
         rounded_Hdb =           P.Round_Sig(Hdb, S.Rounded)
+        rounded_phaseOffsetZ =  P.Round_Sig(phaseOffsetZ, S.Rounded)
 
         # 20260311, MODIFICATION, V0.1.2, LZerres: For the pretty txt file
         dfCalculationsPretty.iloc[Y, X    ] = str(f"{P.select_number_format(rounded_voltageUE)}V")
@@ -234,6 +236,7 @@ def Calculate_All():
         dfCalculationsPretty.iloc[Y, X + 9] = str(f"{P.select_number_format(rounded_phaseOffsetH)}°")
         dfCalculationsPretty.iloc[Y, X + 10] = str(f"{P.select_number_format(rounded_H)}")
         dfCalculationsPretty.iloc[Y, X + 11] = str(f"{P.select_number_format(rounded_Hdb)}dB")
+        dfCalculationsPretty.iloc[Y, X + 12] = str(f"{P.select_number_format(rounded_phaseOffsetZ)}°")
 
         # Saving all the Data into the dataframe
         dfCalculations, dfCalculationsRounded = P.Save_Voltage_Ue           (dfCalculations, dfCalculationsRounded, X, Y, voltageUE, rounded_voltageUE)
@@ -248,6 +251,7 @@ def Calculate_All():
         dfCalculations, dfCalculationsRounded = P.Save_Phase_Offset_H       (dfCalculations, dfCalculationsRounded, X, Y, phaseOffsetH, rounded_phaseOffsetH)
         dfCalculations, dfCalculationsRounded = P.Save_Transferfunction_1   (dfCalculations, dfCalculationsRounded, X, Y, H, rounded_H)
         dfCalculations, dfCalculationsRounded = P.Save_Transferfunction_db  (dfCalculations, dfCalculationsRounded, X, Y, Hdb, rounded_Hdb)
+        dfCalculations, dfCalculationsRounded = P.Save_Phase_Offset_Z       (dfCalculations, dfCalculationsRounded, X, Y, phaseOffsetZ, rounded_phaseOffsetZ)
 
         # 20260222, MODIFICATION, V0.0.1, LZerres: Added Debug Messages for Calculations, so you can see what is calculated in each step
         if (S.Debug == "yes") and (S.Debug_Calc == "yes"):
@@ -331,7 +335,7 @@ def TEMP_graphAll(): # 20260318, MODIFICATION, V0.2.0, LZerres: Temporary to tes
     fig, ax = plt.subplots()             # Create a figure containing a single Axes.
     X = GC.FREQUENCY
     Y = GC.IMPEDANCE_ABS
-    Y2= GC.PHASE_OFFSET_TOT
+    Y2= GC.PHASE_OFFSET_Z
     XAxisName, YAxisName = P.selectGraphSettings(X, Y)
     fig.canvas.manager.set_window_title(f"{YAxisName} over {XAxisName}")
     ax.grid(color="blue")
