@@ -327,7 +327,7 @@ def checkUserInputFloat(input):
 # Functions Layer 1
 # region Functions Layer 1
 
-# 20260318, MODIFICATION, V0.1.3, LZerres: Added to select the axis name for the graph
+# 20260318, MODIFICATION, V0.2.0, LZerres: Added to select the axis name for the graph
 def selectGraphSettings(X, Y):
 
     #selecting the X axis

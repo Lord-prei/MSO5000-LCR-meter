@@ -1,7 +1,7 @@
 ﻿# ----------------------------------------------------------------------------------------------------
 #       Project: DIE (Debug Instrument Engine) | Formaly known as MSO5000 LCR Meter
 #       Purpose: To automate LCR analisys for my Oscilloscope
-#       Version: V0.1.3
+#       Version: V0.2.0
 # ----------------------------------------------------------------------------------------------------
 #       Version control
 # --------------------------------------------------------------------------- Copypaste
@@ -67,14 +67,12 @@
 #       20260311, MODIFICATION, V0.1.2, LZerres:
 #           Change from .xlsx to .csv and .txt for better performace / industry standards
 #
-# --------------------------------------------------------------------------- V0.1.3
+# --------------------------------------------------------------------------- V0.2.0
 #
-#       VERSIONNAME
+#       Simple graphing function
 #
-#       20260318, MODIFICATION, V0.1.3, LZerres:
-#           CHANGE 1
-#           CHANGE 2
-#           CHANGE 3
+#       20260318, MODIFICATION, V0.2.0, LZerres:
+#           Added a simple graphing function
 #
 # --------------------------------------------------------------------------- 
 
@@ -101,7 +99,7 @@ from    Lib.Process import GC
 import  Lib.Settings as S
 import  Lib.Debug   as D
 
-VERSION_SW = "0.1.3"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
+VERSION_SW = "0.2.0"  # 20260222, MODIFICATION, V0.0.2, LZerres: Added to be displayed in the futur
 O.whatVersion(VERSION_SW) # 20260301, MODIFICATION, V0.1.0, LZerres: Added this function so the Version Number can be used in other Libs
 
 print(f"\x1b]0;DIE V{VERSION_SW}\x07") # 20260222, MODIFICATION, V0.0.2, LZerres: Added Version Number to be displayed in CLI title
@@ -150,10 +148,10 @@ O.Create_CSV_Clean(0, 0, "Test")
 # region Functions Layer 1
 
 def Calculate_All():
-    dfCalculations = I.Import_CSV(Data_Path, "Clean.CSV")    # Data from Oscilloscope cleaned.
+    dfCalculations = I.Import_CSV(Data_Path, "Clean.csv")    # Data from Oscilloscope cleaned.
     dfCalculationsRounded = dfCalculations.copy()
-    dfCalculationsPretty = dfCalculations.copy()
-    dfCalculationsPretty.astype(str) # 20260312, MODIFICATION, V0.1.3, LZerres: This is for the pretty txt file, so all values are saved as strings with the unit at the end
+    dfCalculationsPretty = dfCalculations.astype(str) # 20260312, MODIFICATION, V0.2.0, LZerres: This is for the pretty txt file, so all values are saved as strings with the unit at the end
+    
 
     Xmax = dfCalculations.shape[1]                              # Number of columns
     Ymax = dfCalculations.shape[0] - 1                          # Number of rows
@@ -262,8 +260,8 @@ def Calculate_All():
 
         Y += 1
 
-    O.Export_CSV(Data_Path, "Clean_Calc.CSV", dfCalculations)
-    O.Export_CSV(Data_Path, "Clean_Calc_Rounded.CSV", dfCalculationsRounded)
+    O.Export_CSV(Data_Path, "Clean_Calc.csv", dfCalculations)
+    O.Export_CSV(Data_Path, "Clean_Calc_Rounded.csv", dfCalculationsRounded)
     O.Export_Pretty_txt(Data_Path, "Clean_Calc.txt", dfCalculationsPretty)
 
 # endregion Functions Layer 1
@@ -272,9 +270,9 @@ def Calculate_All():
 
 # Functions Layer 2
 # region Functions Layer 2
-def TEMP_graphAll(): # 20260318, MODIFICATION, V0.1.3, LZerres: Temporary to test graphing
+def TEMP_graphAll(): # 20260318, MODIFICATION, V0.2.0, LZerres: Temporary to test graphing
     Data_Path = os.path.join(Base_Dir, "Data")
-    dfData = I.Import_CSV(Data_Path, "Clean_Calc.CSV")
+    dfData = I.Import_CSV(Data_Path, "Clean_Calc.csv")
 
     fig, ax = plt.subplots()             # Create a figure containing a single Axes.
     X = GC.FREQUENCY
@@ -494,6 +492,9 @@ while True:  # Main Loop
                         O.Clear_CLI()
                         print("Both Calculate and Plot Data")
 
+                        Calculate_All()
+                        TEMP_graphAll()
+
                     case "99": # Go back
                         O.Clear_CLI()
                         repeat1 = 0
@@ -542,7 +543,7 @@ while True:  # Main Loop
                         O.waitForKeypress()
 
                     case "4":  # Change Settings
-                        file_path = os.path.join(Settings_Path, "Settings_Current.CSV")
+                        file_path = os.path.join(Settings_Path, "Settings_Current.csv")
                         dfData = pd.read_csv(file_path, header=None, index_col=None)
 
                         S.Settings_Change(dfData)
@@ -551,7 +552,7 @@ while True:  # Main Loop
                     case "5":  # Save Current Settings as Custom Settings
                         O.Clear_CLI()
                         print("Save Current Settings as Custom Settings")
-                        file_path = os.path.join(Settings_Path, "Settings_Current.CSV")
+                        file_path = os.path.join(Settings_Path, "Settings_Current.csv")
                         dfData = pd.read_csv(file_path, header=None, index_col=None)
 
                         S.Settings("Custom", "Save", dfData)

@@ -226,7 +226,7 @@ def Create_CSV_Clean(type, lenght, name):
     df.insert(X + 9, f"H_[1]", pd.Series(np.zeros(lenght, dtype=np.float64)))
     df.insert(X + 10, f"H_[db]", pd.Series(np.zeros(lenght, dtype=np.float64)))
 
-    file_path = os.path.join(Data_Path, f"{name}.CSV")  # Exporting calculated data to CSV File
+    file_path = os.path.join(Data_Path, f"{name}.csv")  # Exporting calculated data to CSV File
     df.to_csv(file_path, index=False)
 
 def Export_Pretty_txt(fileFolderPath, fileName, df):
